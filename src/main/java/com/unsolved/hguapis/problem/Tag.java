@@ -18,5 +18,5 @@ public class Tag {
     private int id;
 
     @Column(unique = true, nullable = false)
-    private String title;
+    private String name;
 }
