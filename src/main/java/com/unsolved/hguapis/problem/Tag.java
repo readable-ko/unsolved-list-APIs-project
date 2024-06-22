@@ -15,8 +15,11 @@ import lombok.Setter;
 @Entity
 public class Tag {
     @Id
-    private int id;
+    private String name;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    private int id;
+
+    @Column
+    private String engName;
 }

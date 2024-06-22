@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,9 @@ public class UserInfo {
 
     @Column
     private String subClass;
+
+    @Column
+    private LocalDateTime modifyDate;
 
     @ManyToMany
     Set<Problem> problemSolved;
