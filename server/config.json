@@ -1,0 +1,14 @@
+{
+  "rabbitMQ": {
+    "hostName": "localhost",
+    "queueName": "user_for_update",
+    "exchange": ""
+  },
+  "database": {
+    "hostName": "localhost",
+    "port": 3306,
+    "schemaName": "test",
+    "userName": "root",
+    "password": "vpfkfl3901@Sql"
+  }
+}

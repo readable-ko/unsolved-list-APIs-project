@@ -1,0 +1,9 @@
+{
+    "database": {
+        "hostName": "localhost",
+        "port": 3306,
+        "schemaName": "test_db",
+        "userName": "test_user",
+        "password": "password"
+    }
+}
