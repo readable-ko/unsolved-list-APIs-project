@@ -3,8 +3,6 @@ package com.unsolved.hguapis.user;
 import com.unsolved.hguapis.problem.Problem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.time.LocalDateTime;
@@ -23,10 +21,6 @@ import lombok.Setter;
 @Entity
 public class UserInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(nullable = false)
     private String username;
 
     @Column
