@@ -50,7 +50,7 @@ class TestRabbitMQController(unittest.TestCase):
         mock_body = "test message"
         self.mock_channel.basic_get.return_value = (mock_method_frame, mock_header_frame, mock_body)
 
-        result = self.mq.pop_queue(callback=lambda x: print("received message"))
+        result = self.mq.pop_queue()
 
         self.assertEqual(result, (mock_method_frame, mock_header_frame, mock_body))
         self.mock_channel.basic_get.assert_called_with(queue='test_queue', auto_ack=False)
