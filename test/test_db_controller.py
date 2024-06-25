@@ -61,14 +61,19 @@ class TestDBController(unittest.TestCase):
         self.mock_cursor.executemany.assert_called_once_with(expected_sql, expected_values)
 
     def test_get_table(self):
-        result = self.db.get_table(table_name="test_table")
-        print("##", result)
+        self.db.get_table(table_name="test_table")
+
         expected_sql = "SELECT * FROM test_table"
         self.mock_cursor.execute.assert_called_once_with(expected_sql)
 
-    def tearDown(self):
+    def test_close(self):
         # Close connections after tests
         self.db.close()
+
+        self.assertEqual(self.mock_cursor.close.call_count, 1)
+        self.assertTrue(self.mock_cursor.closed())
+        self.assertEqual(self.mock_connection.close.call_count, 1)
+        self.assertTrue(self.mock_connection.closed())
 
 
 if __name__ == '__main__':
