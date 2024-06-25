@@ -44,7 +44,11 @@ class RabbitMQController:
             )
         )
 
-    def pop_queue(self, callback):
+    def pop_queue(self):
+        """
+        after receiving a message from the queue, you must call send_ack() to notice that you have received
+        :return: method_frame, header_frame, body (None for fail)
+        """
         if Utility.check_none(self._channel):
             print("Channel is not initialized")
             return None
@@ -61,9 +65,15 @@ class RabbitMQController:
         if method_frame:
             return method_frame, header_frame, body
         else:
+            print("No message received")
             return None
 
     def send_ack(self, delivery_tag):
+        """
+        this method must execute after the pop_queue() method is called
+        :param delivery_tag: delivery tag in method_frame
+        :return:
+        """
         if Utility.check_none(self._channel):
             print("Channel is not initialized")
             return
