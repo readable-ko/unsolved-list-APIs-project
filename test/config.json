@@ -1,4 +1,9 @@
 {
+    "rabbitMQ": {
+        "hostName": "localhost",
+        "queueName": "test_queue",
+        "exchange": "test_exchange"
+    },
     "database": {
         "hostName": "localhost",
         "port": 3306,
