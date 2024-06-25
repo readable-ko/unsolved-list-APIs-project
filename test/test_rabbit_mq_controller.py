@@ -70,5 +70,6 @@ class TestRabbitMQController(unittest.TestCase):
         self.assertEqual(self.mock_connection.close.call_count, 1)
         self.assertTrue(self.mock_connection.closed())
 
+
 if __name__ == '__main__':
     unittest.main()
