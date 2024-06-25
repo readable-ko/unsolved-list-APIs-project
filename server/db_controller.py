@@ -1,5 +1,6 @@
 import mysql.connector
 import json
+from collections import defaultdict
 from server.utility import Utility
 
 
@@ -7,7 +8,7 @@ class DBController:
     def __init__(self, config_path='config.json'):
         self._cursor = None
         self._connection = None
-        self._result = None
+        self._result = defaultdict()
         self._config = Utility.load_config(config_path)
 
     def init(self):
@@ -29,14 +30,24 @@ class DBController:
     def _refresh(self, table_name):
         sql = f"SELECT * FROM {table_name}"
         self._cursor.execute(sql)
-        self._result = self._cursor.fetchall()
+        self._result[table_name] = self._cursor.fetchall()
 
     def get_table(self, table_name: str):
-        if Utility.check_none(self._result):
+        """
+        :param table_name: name of the table to get
+        :return: select all contents from chosen table
+        """
+        if Utility.check_none(self._result.get(table_name)):
             self._refresh(table_name)
-        return self._result
+        return self._result[table_name]
 
     def insert_one(self, table_name: str, data: dict):
+        """
+        Insert one data into the database
+        :param table_name: name of the table to insert into the database
+        :param data: dictionary with the data to be inserted (key: column name and value: data value)
+        :return:
+        """
         columns = ', '.join(data.keys())
         placeholders = ', '.join(["%s"] * len(data))
         sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders});"
@@ -54,6 +65,12 @@ class DBController:
         return True
 
     def insert_many(self, table_name: str, datas: list):
+        """
+        Insert multiple data into the database
+        :param table_name: name of the table to insert into the database schema
+        :param datas: list of dictionaries to insert into the database (key: column name and value: data value)
+        :return: Boolean type indicating whether the insertion was successful
+        """
         if not datas:
             return False
 
