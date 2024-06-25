@@ -1,25 +1,16 @@
 import mysql.connector
 import json
-
-
-def _check_none(value):
-    if value is None:
-        return True
-    return False
+from server.utility import Utility
 
 
 class DBController:
-    def __init__(self):
-        self._config = None
+    def __init__(self, config_path='config.json'):
         self._cursor = None
         self._connection = None
         self._result = None
+        self._config = Utility.load_config(config_path)
 
     def init(self):
-        with open('config.json') as config_file:
-            self._config = json.load(config_file)
-        config_file.close()
-
         host_name = self._config['database']['hostName']
         port = self._config['database']['port']
         schema = self._config['database']['schemaName']
@@ -41,7 +32,7 @@ class DBController:
         self._result = self._cursor.fetchall()
 
     def get_table(self, table_name: str):
-        if _check_none(self._result):
+        if Utility.check_none(self._result):
             self._refresh(table_name)
         return self._result
 
@@ -57,7 +48,7 @@ class DBController:
 
         except mysql.connector.Error as err:
             # Todo Make a logging for check error.
-            print(err.msg, err)
+            print("mysql insertion error: ", err.msg, err)
             return False
 
         return True
@@ -78,7 +69,7 @@ class DBController:
             self._refresh(table_name)
         except mysql.connector.Error as err:
             # Todo Make a logging for check error.
-            print(err.msg, err)
+            print("mysql multi insertion error: ", err.msg, err)
             return False
         return True
 
