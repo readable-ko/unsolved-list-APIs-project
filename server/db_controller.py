@@ -1,6 +1,8 @@
-import mysql.connector
-import json
+import datetime
 from collections import defaultdict
+
+import mysql.connector
+
 from server.utility import Utility
 
 
@@ -8,8 +10,9 @@ class DBController:
     def __init__(self, config_path='config.json'):
         self._cursor = None
         self._connection = None
-        self._result = defaultdict()
         self._config = Utility.load_config(config_path)
+        # todo redis 사용하여 더 빠르게 쓰는 방법 고민해보자
+        self._result = defaultdict()
 
     def init(self):
         host_name = self._config['database']['hostName']
@@ -29,8 +32,11 @@ class DBController:
 
     def _refresh(self, table_name):
         sql = f"SELECT * FROM {table_name}"
-        self._cursor.execute(sql)
-        self._result[table_name] = self._cursor.fetchall()
+        try:
+            self._cursor.execute(sql)
+            self._result[table_name] = self._cursor.fetchall()
+        except mysql.connector.Error as err:
+            print("mysql.connector.Error:", err.msg, err)
 
     def get_table(self, table_name: str):
         """
@@ -41,19 +47,22 @@ class DBController:
             self._refresh(table_name)
         return self._result[table_name]
 
-    def insert_one(self, table_name: str, data: dict):
+    def insert_one(self, table_name: str, data: tuple):
         """
         Insert one data into the database
         :param table_name: name of the table to insert into the database
         :param data: dictionary with the data to be inserted (key: column name and value: data value)
         :return:
         """
-        columns = ', '.join(data.keys())
-        placeholders = ', '.join(["%s"] * len(data))
-        sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders});"
 
         try:
-            self._cursor.execute(sql, tuple(data.values()))
+            current_time = [datetime.datetime.now()]
+            value = tuple(list(data) + current_time)
+
+            placeholders = ', '.join(["%s"] * (len(data)))
+            sql = f"INSERT INTO {table_name} VALUES ({placeholders});"
+
+            self._cursor.execute(sql, value)
             self._connection.commit()
             self._refresh(table_name)
 
@@ -64,7 +73,7 @@ class DBController:
 
         return True
 
-    def insert_many(self, table_name: str, datas: list):
+    def insert_many(self, table_name: str, datas: list[tuple]):
         """
         Insert multiple data into the database
         :param table_name: name of the table to insert into the database schema
@@ -74,12 +83,13 @@ class DBController:
         if not datas:
             return False
 
-        columns = ', '.join(datas[0].keys())
-        placeholders = ', '.join(["%s"] * len(datas[0]))
-        sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders});"
-
         try:
-            values = [tuple(data.values()) for data in datas]
+            modified_data = [list(data) + [datetime.datetime.now()] for data in datas]
+            values = [tuple(data) for data in modified_data]
+
+            placeholders = ', '.join(["%s"] * (len(values[0])))
+            sql = f"INSERT INTO {table_name} VALUES ({placeholders});"
+
             self._cursor.executemany(sql, values)
             self._connection.commit()
 

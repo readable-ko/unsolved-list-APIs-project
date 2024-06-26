@@ -1,3 +1,4 @@
+import datetime, time_machine
 import unittest
 from unittest.mock import patch, MagicMock
 from server.db_controller import DBController
@@ -34,21 +35,28 @@ class TestDBController(unittest.TestCase):
     def test_insert_one(self):
         # Test insert_one method
         test_datas = {'id': 222, 'username': 'kadaif', 'ranking': 123}
-        result = self.db.insert_one(table_name='test', data=test_datas)
+        result = self.db.insert_one(table_name='test', data=tuple(test_datas.values()))
         self.assertTrue(result)
 
         # Verify that cursor.execute and connection.commit were called
         self.assertTrue(self.mock_cursor.execute.called)
         self.assertTrue(self.mock_connection.commit.called)
 
-    def test_insert_many(self):
+    @patch('datetime.datetime')
+    def test_insert_many(self, mock_datetime):
         # Test insert_many method
+        mock_now = datetime.datetime.now()
+        self.mock_datetime = MagicMock()
+        self.mock_datetime.now.return_value = mock_now
+
         datas = [
             {'id': 4, 'username': 'four', 'ranking': '4'},
             {'id': 5, 'username': 'five', 'ranking': 5},
             {'id': '6', 'username': 'six', 'ranking': '6'},
             {'id': '7', 'username': 'seven', 'ranking': 7}
         ]
+
+        datas = [tuple(d.values()) for d in datas]
         result = self.db.insert_many(table_name='test', datas=datas)
         self.assertTrue(result)
 
@@ -56,8 +64,10 @@ class TestDBController(unittest.TestCase):
         self.assertTrue(self.mock_cursor.executemany.called)
         self.assertTrue(self.mock_connection.commit.called)
 
-        expected_sql = "INSERT INTO test (id, username, ranking) VALUES (%s, %s, %s);"
-        expected_values = [(4, 'four', '4'), (5, 'five', 5), ('6', 'six', '6'), ('7', 'seven', 7)]
+        expected_sql = "INSERT INTO test VALUES (%s, %s, %s, %s);"
+
+        expected_values = [(4, 'four', '4', mock_now), (5, 'five', 5, mock_now),
+                           ('6', 'six', '6', mock_now), ('7', 'seven', 7, mock_now)]
         self.mock_cursor.executemany.assert_called_once_with(expected_sql, expected_values)
 
     def test_get_table(self):
