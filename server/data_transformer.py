@@ -33,7 +33,7 @@ class DataTransformer:
     def choose_user(self):
         """
         function for get the user list.
-        :return: API(refreshed user) - DB(user)
+        :return: set(tuple) with data of API(refreshed user) - DB(user)
         """
         db_org_data = self._db_con.get_table(self._config["transform"]["user_table"])
         api_org_data = self._filtered_data(self._ap_con.get_org_api())

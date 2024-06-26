@@ -12,7 +12,7 @@
         "password": "password"
     },
     "transform": {
-        "filtering_key": ["id", "username", "email"],
+        "filtering_key": ["username", "id", "email"],
         "user_table": "site_users"
     },
     "api": {

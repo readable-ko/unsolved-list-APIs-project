@@ -16,9 +16,9 @@ class TestDataTransformer(unittest.TestCase):
     def test_choose_user_and_filtering(self, mock_get_org_api, mock_get_table):
         # Mock data from the database and API
         mock_db_data = [
-            (2, "fpqpsxh", "fpqpsxh@naver.com"),
-            (3, "readable-ko", "readable-ko@example.com"),
-            (4, "forever", "forever@example.test")
+            ("fpqpsxh", 2, "fpqpsxh@naver.com"),
+            ("readable-ko", 3, "readable-ko@example.com"),
+            ("forever", 4, "forever@example.test")
         ]
 
         mock_api_data = [
@@ -40,12 +40,12 @@ class TestDataTransformer(unittest.TestCase):
         update_user = self.transformer.choose_user()
 
         # Assert the insert_many was called with the correct parameters
-        expected_data_to_insert = [(1, 'glory', 'gloryko@test.com'), (3, 'readable-ko', 'test@example.com')]
+        expected_data_to_insert = [('glory', 1, 'gloryko@test.com'), ('readable-ko', 3, 'test@example.com')]
         (self.transformer._db_con.insert_many
          .assert_called_once_with(table_name="site_users", datas=expected_data_to_insert))
 
         # Assert the method returns the correct data
-        self.assertEqual(sorted(update_user), sorted(expected_data_to_insert))
+        self.assertEqual(sorted(update_user), expected_data_to_insert)
 
 
 if __name__ == '__main__':
