@@ -1,6 +1,4 @@
 import pika
-import json
-
 from pika.exceptions import AMQPConnectionError
 
 from server.utility import Utility
@@ -24,7 +22,7 @@ class RabbitMQController:
             self._connection = None
             self._channel = None
 
-    def push_queue(self, message: str = ""):
+    def push_queue(self, message=""):
         if Utility.check_none(self._channel):
             print("Channel is not initialized")
             return
