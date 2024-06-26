@@ -10,5 +10,15 @@
         "schemaName": "test_db",
         "userName": "test_user",
         "password": "password"
+    },
+    "transform": {
+        "filtering_key": ["id", "username", "email"],
+        "user_table": "site_users"
+    },
+    "api": {
+        "ORG_API_URL": "https://example.com/org",
+        "USER_API_URL": "https://example.com/user",
+        "TARGET": "lists",
+        "COUNT": "total_count"
     }
 }
