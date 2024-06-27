@@ -3,7 +3,7 @@ from server.rabbit_mq_controller import RabbitMQController
 
 
 class Broker:
-    def __init__(self, config_path='config_json'):
+    def __init__(self, config_path='config.json'):
         self.db_users = []
         self.api_users = []
         self.mq_con = RabbitMQController(config_path)
@@ -22,6 +22,7 @@ class Broker:
         for user in update_user:
             message = {user[0]: user[1]}
             self.mq_con.push_queue(message)
+            print(f"[X] Message sent {message}")
 
 
 if __name__ == '__main__':
