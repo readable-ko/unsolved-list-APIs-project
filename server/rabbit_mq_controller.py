@@ -1,3 +1,5 @@
+import json
+
 import pika
 from pika.exceptions import AMQPConnectionError
 
@@ -22,8 +24,8 @@ class RabbitMQController:
             self._connection = None
             self._channel = None
 
-    def push_queue(self, message=""):
-        if Utility.check_none(self._channel):
+    def push_queue(self, pure_message=""):
+        if Utility.is_none_or_empty(self._channel):
             print("Channel is not initialized")
             return
 
@@ -32,6 +34,8 @@ class RabbitMQController:
 
         # check the queue declaration
         self._channel.queue_declare(queue=queue_name, durable=True)
+
+        message = json.dumps(pure_message).encode('utf-8')
 
         self._channel.basic_publish(
             exchange=exchange,
@@ -47,7 +51,7 @@ class RabbitMQController:
         after receiving a message from the queue, you must call send_ack() to notice that you have received
         :return: method_frame, header_frame, body (None for fail)
         """
-        if Utility.check_none(self._channel):
+        if Utility.is_none_or_empty(self._channel):
             print("Channel is not initialized")
             return None
 
@@ -64,7 +68,7 @@ class RabbitMQController:
             return method_frame, header_frame, body
         else:
             print("No message received")
-            return None
+            return None, None, None
 
     def send_ack(self, delivery_tag):
         """
@@ -72,14 +76,14 @@ class RabbitMQController:
         :param delivery_tag: delivery tag in method_frame
         :return:
         """
-        if Utility.check_none(self._channel):
+        if Utility.is_none_or_empty(self._channel):
             print("Channel is not initialized")
             return
 
         self._channel.basic_ack(delivery_tag=delivery_tag)
 
     def end_connection(self):
-        if not Utility.check_none(self._channel):
+        if not Utility.is_none_or_empty(self._channel):
             self._channel.close()
-        if not Utility.check_none(self._connection):
+        if not Utility.is_none_or_empty(self._connection):
             self._connection.close()

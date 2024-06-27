@@ -1,9 +1,25 @@
 import datetime
-from collections import defaultdict
-
 import mysql.connector
+from collections import defaultdict
+from enum import Enum
 
 from server.utility import Utility
+
+
+class InsertType(Enum):
+    IGNORE = 1
+    DUPLICATE = 0
+
+
+class AggregateType(Enum):
+    NONE = "SELECT * FROM {table_name} {query}"
+    COUNT = "SELECT COUNT(*) FROM {table_name} {query}"
+    SUM = "SELECT SUM(*) FROM {table_name} {query}"
+    MAX = "SELECT MAX({query}) FROM {table_name}"
+    MIN = "SELECT MIN({query}) FROM {table_name}"
+
+    def return_query_by_aggregate_type(self, table_name: str, query: str = ""):
+        return self.value.format(table_name=table_name, query=query)
 
 
 class DBController:
@@ -30,29 +46,65 @@ class DBController:
         )
         self._cursor = self._connection.cursor()
 
-    def _refresh(self, table_name):
-        sql = f"SELECT * FROM {table_name}"
+    def _refresh(self, table_name: str, query: str = "", types: AggregateType = AggregateType.NONE):
+        sql = types.return_query_by_aggregate_type(table_name=table_name, query=query)
         try:
             self._cursor.execute(sql)
-            self._result[table_name] = self._cursor.fetchall()
+            self._result[table_name + query + types.name] = self._cursor.fetchall()
         except mysql.connector.Error as err:
             print("mysql.connector.Error:", err.msg, err)
 
-    def get_table(self, table_name: str):
+    def _execute_many(self, table_name: str, values: list[tuple], query: str):
         """
-        :param table_name: name of the table to get
+        execute multiple query into the database.
+        :param table_name: name of the table to insert into the database schemae.
+        :param values: list of dictionaries to insert into the database (key: column name and value: data value)
+        :param query: query for "WHERE" clause or etc.
+        :return: Boolean type indicating whether the insertion was successful
+        """
+        try:
+            self._cursor.executemany(query, values)
+            self._connection.commit()
+
+            self._refresh(table_name)
+        except mysql.connector.Error as err:
+            # Todo Make a logging for check error.
+            print("mysql multi insertion error: ", err.msg, err)
+            return False
+        return True
+
+    def _insert_many_ignore(self, table_name: str, datas: list[tuple]):
+        placeholders = ', '.join(["%s"] * (len(datas[0])))
+        query = f"INSERT IGNORE INTO {table_name} VALUES ({placeholders});"
+
+        return self._execute_many(table_name, datas, query)
+
+    def _insert_many_duplicates(self, table_name: str, datas: list[tuple], column_datas: list[str]):
+        columns = ', '.join(column_datas)
+        update_statements = ', '.join([f"{key} = VALUES({key})" for key in column_datas])
+        placeholders = ', '.join(["%s"] * (len(datas[0])))
+
+        query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders}) ON DUPLICATE KEY UPDATE {update_statements};"
+
+        return self._execute_many(table_name, datas, query)
+
+    def get_table(self, table_name: str, query: str = "", types: AggregateType = AggregateType.NONE):
+        """
+        :param query: query for "WHERE" clause or etc.
+        :param table_name: name of the table to select from
+        :param types: the aggregate function to use on (ex:SUM, COUNT, MAX)
         :return: select all contents from chosen table
         """
-        if Utility.check_none(self._result.get(table_name)):
-            self._refresh(table_name)
-        return self._result[table_name]
+        if Utility.is_none_or_empty(self._result.get(table_name + query + types.name)):
+            self._refresh(table_name, query, types)
+        return self._result[table_name + query + types.name]
 
     def insert_one(self, table_name: str, data: tuple):
         """
         Insert one data into the database
         :param table_name: name of the table to insert into the database
         :param data: dictionary with the data to be inserted (key: column name and value: data value)
-        :return:
+        :return: Boolean type indicating whether the insertion was successful
         """
 
         try:
@@ -73,32 +125,28 @@ class DBController:
 
         return True
 
-    def insert_many(self, table_name: str, datas: list[tuple]):
+    def insert_many(self, table_name: str, datas: list[tuple], types: InsertType, column_datas: list[str] = None):
         """
-        Insert multiple data into the database
-        :param table_name: name of the table to insert into the database schema
-        :param datas: list of dictionaries to insert into the database (key: column name and value: data value)
-        :return: Boolean type indicating whether the insertion was successful
+        this funcion inserts a list of data into a @table_name table with InsertType and column
+        default insert type is insert ignore many. duplicate insert will be ignored
+        :param table_name: table name to insert into.
+        :param datas: list of data you want to insert.
+        :param types: insert types (ignore, duplicate)
+        :param column_datas: default is none which will be using for duplicate insert
+        :return: Boolean indicating whether the insert was successful
         """
-        if not datas:
+        if Utility.is_none_or_empty(datas):
             return False
 
-        try:
-            modified_data = [list(data) + [datetime.datetime.now()] for data in datas]
-            values = [tuple(data) for data in modified_data]
+        modified_data = [list(data) + [datetime.datetime.now()] for data in datas]
+        values = [tuple(data) for data in modified_data]
 
-            placeholders = ', '.join(["%s"] * (len(values[0])))
-            sql = f"INSERT INTO {table_name} VALUES ({placeholders});"
-
-            self._cursor.executemany(sql, values)
-            self._connection.commit()
-
-            self._refresh(table_name)
-        except mysql.connector.Error as err:
-            # Todo Make a logging for check error.
-            print("mysql multi insertion error: ", err.msg, err)
+        if InsertType.IGNORE.value == types.value:
+            return self._insert_many_ignore(table_name, values)
+        elif InsertType.DUPLICATE.value == types.value:
+            return self._insert_many_duplicates(table_name, values, column_datas)
+        else:
             return False
-        return True
 
     def close(self):
         self._cursor.close()

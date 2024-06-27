@@ -38,7 +38,7 @@ class TestRabbitMQController(unittest.TestCase):
         self.mock_channel.basic_publish.assert_called_with(
             exchange='test_exchange',
             routing_key='test_queue',
-            body=message,
+            body='"test message"'.encode("utf-8"),
             properties=pika.BasicProperties(
                 delivery_mode=pika.DeliveryMode.Persistent
             )
@@ -47,7 +47,7 @@ class TestRabbitMQController(unittest.TestCase):
     def test_pop_queue(self):
         mock_method_frame = MagicMock()
         mock_header_frame = MagicMock()
-        mock_body = "test message"
+        mock_body = bytes("test message", 'utf-8')
         self.mock_channel.basic_get.return_value = (mock_method_frame, mock_header_frame, mock_body)
 
         result = self.mq.pop_queue()
