@@ -42,7 +42,9 @@ class DataTransformer:
         function for get the user list.
         :return: set(tuple) with data of API(refreshed user) - DB(user)
         """
-        db_org_data = self._db_con.get_table(self._config["transform"]["user_table"])
+        filtered_column = ', '.join(self._config["transform"]["user_columns"][:-1])
+        db_org_data = self._db_con.get_table(self._config["transform"]["user_table"], query=filtered_column,
+                                             types=AggregateType.COLUMN)
         filtering_key = self._config["transform"]["user_filtering_key"]
         api_org_data = _filtered_data(self._ap_con.get_org_api(), filtering_key)
 
@@ -65,7 +67,7 @@ class DataTransformer:
         :param query: query for more clause like WHERE or GROUP BY or etc.
         :return: list(tuple) of data
         """
-        return self._db_con.get_table(table_name=table_name, query=query, types=AggregateType.COUNT)
+        return self._db_con.get_table(table_name=table_name, query=query, types=AggregateType.COUNT)[0][0]
 
     def get_api_user_solved(self, username):
         """

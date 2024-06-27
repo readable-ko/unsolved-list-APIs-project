@@ -13,6 +13,7 @@ class InsertType(Enum):
 
 class AggregateType(Enum):
     NONE = "SELECT * FROM {table_name} {query}"
+    COLUMN = "SELECT {query} FROM {table_name}"
     COUNT = "SELECT COUNT(*) FROM {table_name} {query}"
     SUM = "SELECT SUM(*) FROM {table_name} {query}"
     MAX = "SELECT MAX({query}) FROM {table_name}"

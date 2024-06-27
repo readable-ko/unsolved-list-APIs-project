@@ -19,7 +19,7 @@ class Consumer(object):
         self._db_con.init()
 
     def _should_skip(self, user_name, given_data):
-        table_name = self._config["consumer"]["user_table"]
+        table_name = self._config["consumer"]["user_solved_table"]
         query = self._config["consumer"]["query"] % user_name
         db_data = self._transformer.get_db_user_solved(table_name=table_name, query=query)
 
@@ -43,6 +43,7 @@ class Consumer(object):
             # if user data is already refreshed skip the user
             if self._should_skip(user_name, solved_count):
                 self._mq_con.send_ack(method_frame.delivery_tag)
+                print(f"Skipped {user_name}")
                 continue
 
             # save data on database

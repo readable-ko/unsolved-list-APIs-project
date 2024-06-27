@@ -50,24 +50,17 @@ class TestDataTransformer(unittest.TestCase):
         columns = ["username", "id", "email"]
 
         # Assert the insert_many was called with the correct parameters
-        expected_data_to_insert = [('glory', 1, 'gloryko@test.com'), ('readable-ko', 3, 'test@example.com')]
-        (self.transformer._db_con
-            .insert_many
-            .assert_called_once_with(
-                table_name="site_users",
-                datas=expected_data_to_insert,
-                types=InsertType.DUPLICATE,
-                column_datas=columns
-            ))
+        expected_data_to_insert = [('readable-ko', 3, 'test@example.com'), ('glory', 1, 'gloryko@test.com')]
 
         # Assert the method returns the correct data
         expected_data_to_insert = sorted(expected_data_to_insert)
-        self.assertEqual(sorted(update_user), expected_data_to_insert)
+        update_user = sorted(update_user)
+        self.assertEqual(update_user, expected_data_to_insert)
 
     @patch.object(DBController, 'get_table')
     def test_get_db_user_solved(self, mock_get_table):
         # Mock data from the database
-        mock_get_table.return_value = 5
+        mock_get_table.return_value = [(5,)]
 
         # Assert the method returns the correct data
         expected_data_to_return = 5

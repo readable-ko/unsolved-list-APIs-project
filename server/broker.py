@@ -23,6 +23,7 @@ class Broker:
             message = {user[0]: user[1]}
             self.mq_con.push_queue(message)
             print(f"[X] Message sent {message}")
+        print(f"TOTAL {len(update_user)} messages sent.")
 
 
 if __name__ == '__main__':

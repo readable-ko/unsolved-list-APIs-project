@@ -43,7 +43,7 @@ class ApiController:
             return []
 
         data = first_page[target]
-        total_pages = math.floor(first_page[count] // 50)
+        total_pages = math.ceil(first_page[count] / 50)
         self._called += total_pages
 
         for page in range(2, total_pages + 1):
