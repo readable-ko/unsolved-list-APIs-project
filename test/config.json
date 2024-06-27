@@ -12,8 +12,11 @@
         "password": "password"
     },
     "transform": {
-        "filtering_key": ["username", "id", "email"],
-        "user_table": "site_users"
+        "user_filtering_key": ["username", "id", "email"],
+        "user_table": "site_users",
+        "query": "WHERE username = forever",
+        "problem_filtering_key": ["life"],
+        "user_columns": ["username", "id", "email"]
     },
     "api": {
         "ORG_API_URL": "https://example.com/org",

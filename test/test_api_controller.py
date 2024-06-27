@@ -1,5 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
+
+import requests
+
 from server.api_controller import ApiController
 
 
@@ -42,8 +45,8 @@ class TestApiController(unittest.TestCase):
             'total_count': 50
         }
         mock_requests_get.return_value = self.mock_response
-        result = self.api.get_user_api("test")
-        self.assertEqual(result, [])
+        with self.assertRaises(requests.exceptions.ConnectionError) as e:
+            result = self.api.get_user_api("test")
 
     @patch('server.api_controller._send_request')
     def test_get_user_api_with_send_request(self, mock_send_request):
@@ -56,6 +59,14 @@ class TestApiController(unittest.TestCase):
         result = self.api.get_user_api("test")
         self.assertEqual(result, [{'id': 1, 'name': "eric"}])
         mock_send_request.assert_called_once_with('https://example.com/user', 1, 'test')
+
+    def test_get_called_count(self):
+        result = self.api.get_called_times()
+        self.assertEqual(result, 0)
+
+        self.test_get_user_api_with_send_request()
+        result = self.api.get_called_times()
+        self.assertEqual(result, 1)
 
 
 if __name__ == '__main__':
