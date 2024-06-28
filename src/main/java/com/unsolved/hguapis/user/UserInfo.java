@@ -1,30 +1,28 @@
 package com.unsolved.hguapis.user;
 
-import com.unsolved.hguapis.problem.Problem;
+import com.unsolved.hguapis.usersolved.UserInfoProblemSolved;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 @Builder
+@Getter
 @Entity
 public class UserInfo {
     @Id
     private String username;
 
     @Column
-    private String solvedCount;
+    private int solvedCount;
 
     @Column(columnDefinition = "TEXT")
     private String comment;
@@ -33,11 +31,11 @@ public class UserInfo {
     private int tier;
 
     @Column
-    private String subClass;
+    private int subClass;
 
     @Column
     private LocalDateTime modifyDate;
 
-    @ManyToMany
-    Set<Problem> problemSolved;
+    @OneToMany(mappedBy = "userInfo")
+    Set<UserInfoProblemSolved> problemSolved;
 }
