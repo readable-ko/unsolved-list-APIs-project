@@ -1,11 +1,12 @@
 package com.unsolved.hguapis.problem;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @RequestMapping("/unsolved-hgu/problem")
@@ -14,17 +15,9 @@ public class ProblemController {
     private final ProblemService problemService;
 
     @GetMapping("")
-    public String problems(Model model) {
-        List<ProblemDto> problemItems = this.problemService.getProblems();
-        List<ProblemDto> problemDto = problemItems.subList(15970, 15990);
-        model.addAttribute("problemItems", problemDto);
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<ProblemDto> paging = this.problemService.getProblems(page);
+        model.addAttribute("paging", paging);
         return "problem";
-    }
-
-    @GetMapping("/table")
-    public String problem(Model model) {
-        List<ProblemDto> problemItems = this.problemService.getProblems();
-        model.addAttribute("problemItems", problemItems);
-        return "layout";
     }
 }
