@@ -9,6 +9,7 @@ public class ProblemMapper {
                 problem.getId(),
                 problem.getTitle(),
                 problem.getLevel(),
+                0,
                 tags
         );
     }

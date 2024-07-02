@@ -2,25 +2,30 @@ package com.unsolved.hguapis.user;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/unsolved-hgu/api")
-@RestController
+@RequestMapping("/unsolved-hgu")
+@Controller
 public class UserInfoController {
     private final UserInfoService userInfoService;
 
     @GetMapping("/userinfo")
+    @ResponseBody
     public List<UserInfoDto> list() {
         return this.userInfoService.getAllUserInfos();
     }
 
+    @GetMapping("")
+    public String home() {
+        return "home";
+    }
+
     @GetMapping("/test")
-    @ResponseBody
     public String test() {
-        return "Test!";
+        return "problem";
     }
 }
