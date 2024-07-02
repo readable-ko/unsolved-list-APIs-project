@@ -16,6 +16,8 @@ public class ProblemDto {
 
     private int level;
 
+    private int solvedCount;
+
     private Set<Tag> tags;
 
     public String getTagName() {
