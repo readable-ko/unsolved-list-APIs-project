@@ -1,11 +1,12 @@
 package com.unsolved.hguapis.user;
 
-import com.unsolved.hguapis.exception.DataNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -13,20 +14,18 @@ import org.springframework.stereotype.Service;
 public class UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
-    public UserInfo getUserInfo(String username) {
-        Optional<UserInfo> userInfo = userInfoRepository.findByUsername(username);
-        if (userInfo.isPresent()) {
-            return userInfo.get();
-        }
-        throw new DataNotFoundException("User not found");
-    }
+    public Page<UserInfoDto> getAllUserInfos(int page, String kw, String types) {
+        OrderType orderType = OrderType.valueOf(types);
+        List<Sort.Order> sorts = new ArrayList<>();
 
-    public List<UserInfoDto> getAllUserInfos() {
-        List<UserInfoDto> userInfo = userInfoRepository.findAllUserInfoDto(Sort.by(Direction.DESC, "solvedCount"));
-        if (userInfo.isEmpty()) {
-            throw new DataNotFoundException("User List not found");
+        sorts.add(Sort.Order.desc(orderType.getTitle()));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        if (orderType == OrderType.CONTRIBUTE) {
+            Page<UserInfoContributeDto> userInfos = userInfoRepository.findContributeUserInfo(kw, pageable);
+            return userInfos.map(UserInfoMapper::ContributeDtoToDto);
         }
-        System.out.println(userInfo);
-        return userInfo;
+
+        return this.userInfoRepository.findAllUserInfo(kw, pageable);
     }
 }
