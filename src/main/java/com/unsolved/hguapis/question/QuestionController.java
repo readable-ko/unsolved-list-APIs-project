@@ -26,9 +26,9 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String test(@PathVariable Integer id, Model model) {
+    public String detail(@PathVariable("id") Integer id, Model model) {
         Question question = this.questionService.getQuestionById(id);
         model.addAttribute("question", question);
-        return "test";
+        return "board_detail";
     }
 }

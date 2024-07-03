@@ -40,7 +40,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
-<header class="fixed w-full z-50">
+<header class="fixed w-full">
     <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
             <a href="/unsolved-hgu" class="flex items-center">
@@ -76,8 +76,8 @@
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
                         <a th:href="@{/unsolved-hgu}"
-                           class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
-                           aria-current="page">홈</a>
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                            홈</a>
                     </li>
                     <li>
                         <a th:href="@{/problem}"
@@ -94,8 +94,9 @@
                            class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">게시판</a>
                     </li>
                     <li>
-                        <a th:href="@{/unsolved-hgu/introduction}"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">사이트
+                        <a href="javascript:void(0)"
+                           class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
+                           aria-current="page">사이트
                             소개</a>
                     </li>
                 </ul>
@@ -103,226 +104,237 @@
         </div>
     </nav>
 </header>
-
-<!-- Start block -->
 <section class="bg-white dark:bg-gray-900">
-    <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-        <div class="mr-auto place-self-center lg:col-span-7">
-            <h1 class="max-w-2xl mb-4 text-6xl font-extrabold leading-none tracking-tight md:text-9xl xl:text-6xl dark:text-white">
-                Unsolved <br>Guildline for <br> HGU</h1>
-            <p class="max-w-2xl mb-6 font-medium text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-                우리 학교에서 풀지 않은 백준 문제를 공유하는 사이트입니다.<br>
-                데이터가 없으신 분들은
-                <a href="https://solved.ac/" class="hover:underline">
-                    solved.ac
-                </a>
-                에 연동 및 학교 등록 부탁드립니다.<br>
-                건의사항이나 버그가 있다면
-                <a href="https://flowbite.com/docs/getting-started/introduction/" class="hover:underline">
-                    여기로 신고해주세요!
-                </a>
-            </p>
-            <div class="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-                <a href="https://github.com/themesberg/landwind"
-                   class="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                    <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 496 512">
-                        <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
-                        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
-                    </svg>
-                    View on GitHub
-                </a>
-                <a href="https://github.com/themesberg/landwind"
-                   class="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                    <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 496 512">
-                        <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
-                        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
-                    </svg>
-                    신고하기
-                </a>
+    <div class="items-center max-w-screen-xl px-4 py-8 mx-auto lg:grid lg:grid-cols-4 lg:gap-16 xl:gap-24 lg:py-24 lg:px-6">
+        <div class="col-span-2 space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0">
+            <div>
+                <svg class="w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500" fill="currentColor"
+                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="mb-2 text-2xl font-bold dark:text-white">5Min Delay</h3>
+                <p class="font-light text-gray-500 dark:text-gray-400">최소 5분의 갱신 시간이 있습니다.</p>
+            </div>
+            <div>
+                <svg class="w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500" fill="currentColor"
+                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                </svg>
+                <h3 class="mb-2 text-2xl font-bold dark:text-white">10+ Users</h3>
+                <p class="font-light text-gray-500 dark:text-gray-400">5분마다 500문제 기준 약 10명 갱신합니다.</p>
             </div>
         </div>
-        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img src="/images/profile.png" alt="hero image">
+        <div class="col-span-2 mb-8">
+            <div id="accordion-color" data-accordion="collapse"
+                 data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
+                <h2 id="accordion-color-heading-1">
+                    <button type="button"
+                            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                            data-accordion-target="#accordion-color-body-1" aria-expanded="true"
+                            aria-controls="accordion-color-body-1">
+                        <span>사이트 정보 갱신 방법이 궁금해요!</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-color-body-1" class="hidden" aria-labelledby="accordion-color-heading-1">
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">
+                            <a
+                                    href="https://solved.ac/"
+                                    class="text-blue-600 dark:text-blue-500 hover:underline">Solved.ac</a>의
+                            API값을 참조하여 5분마다 갱신합니다.</p>
+                        <p class="text-gray-500 dark:text-gray-400">사이트 자체를 크롤링하기보다는 플러그인 소스 코드 역공학을 이용해 API endpoint를
+                            얻어가라고 하셔서 API값을 참조하게 되었습니다.</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">
+                            <a
+                                    href="https://github.com/solvedac/unofficial-documentation"
+                                    class="font-bold hover:underline">관련 설명 Github 링크</a>
+                        </p>
+                    </div>
+                </div>
+                <h2 id="accordion-color-heading-2">
+                    <button type="button"
+                            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                            data-accordion-target="#accordion-color-body-2" aria-expanded="false"
+                            aria-controls="accordion-color-body-2">
+                        <span>간격, 폰트, 디자인이 이상해요</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">디자인 감각이 없어서 TailWind와 FlowBite를 사용하여
+                            디자인하였습니다.</p>
+                        <p class="text-gray-500 dark:text-gray-400"><a
+                                href="https://www.tailwindawesome.com/resources/landwind"
+                                class="text-blue-600 dark:text-blue-500 hover:underline">LandWind</a>
+                            에서 템플릿을 따와 디자인 했는데.. 프론트가 처음이라 만질 수록 이상해지네요 ㅎㅎ..
+                        </p>
+                    </div>
+                </div>
+                <h2 id="accordion-color-heading-3">
+                    <button type="button"
+                            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                            data-accordion-target="#accordion-color-body-3" aria-expanded="false"
+                            aria-controls="accordion-color-body-3">
+                        <span>사용된 기술 스택이 궁금합니다!</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
+                    <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">API-DB 파이프라인과 백엔드, 프론트로 나누어 설명하면 아래와 같습니다.
+                            :)</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-bold">
+                            파이프라인 (lang: <a href="https://www.python.org/" rel="nofollow"
+                                            class="text-blue-600 dark:text-blue-500 hover:underline">Python </a>)
+                        </p>
+                        <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
+                            <li><a href="https://www.rabbitmq.com/"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">RabbitMQ</a></li>
+                        </ul>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-bold">
+                            백엔드 (lang: <a href="https://flowbite.com/pro/"
+                                          class="text-blue-600 dark:text-blue-500 hover:underline">Java</a>)
+                        </p>
+                        <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
+                            <li><a href="https://www.mysql.com/"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">MySql</a></li>
+                            <li><a href="https://spring.io/projects/spring-boot" rel="nofollow"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">Spring Boot</a></li>
+                            <li><a href="https://aws.amazon.com/ko/" rel="nofollow"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">AWS LightSail</a></li>
+                        </ul>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-bold">
+                            프론트
+                        </p>
+                        <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
+                            <li><a href="https://www.thymeleaf.org/"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">Thymeleaf</a></li>
+                            <li><a href="https://tailwindui.com/" rel="nofollow"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">TailWind</a></li>
+                            <li><a href="https://flowbite.com/" rel="nofollow"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">FlowBite</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
+        <!-- Row -->
+        <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
+            <div class="text-gray-500 sm:text-lg dark:text-gray-400">
+                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">사이트 개설 배경</h2>
+                <p class="mb-8 font-light lg:text-lg">백준에 학교/회사 랭킹이 있는거 알고 계셨나요?<br> 어느 날 밀려나는 순위를 올릴 방법이 없을까
+                    고민했습니다.<br>
+                    첫 프로젝트는 flutter로 개발했지만, API호출 횟수와 firebase R/W 횟수 제한으로 실패한 프로젝트가 되었습니다.
+                    <br> 그래서 이번에 새로 도전하게 되었습니다.</p>
+                <p>Version2의 차이점</p>
+                <!-- List -->
+                <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
+                    <li class="flex space-x-3">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">파이프라인을 통한 api호출 및 db 갱신 자동화</span>
+                    </li>
+                    <li class="flex space-x-3">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">DB 변경 및 API 호출 횟수 극복</span>
+                    </li>
+                    <li class="flex space-x-3">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">확대된 기능과 편의성~!</span>
+                    </li>
+                </ul>
+                <p class="mb-8 font-light lg:text-lg">Version 2.1에서 원하는 기능이 있다면 issue나 게시판 글 남겨주세요!</p>
+            </div>
+            <img class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/prev_design.png"
+                 alt="과거 flutter로 개발한 ver1. 초기 디자인">
         </div>
     </div>
 </section>
-<!-- End block -->
 
-<!-- Start block -->
 <section class="bg-white dark:bg-gray-900">
-    <div class="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-16">
-        <div class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 dark:text-gray-400">
-
-            <!--브론즈-->
-            <a href="/problem?kw=&page=0&types=BRONZE" class="flex items-center lg:justify-center w-48">
-                <div class="card card-compact bg-base-100 shadow-xl">
-                    <figure>
-                        <img
-                                src="/images/Bronze_Banner.webp" class="object-cover w-full"
-                                alt="Bronze banner image"/>
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Unsolved
-                            <span class="bg-orange-300 text-amber-800 text-xs font-bold me-2 px-2.5 py-0.5 rounded dark:bg-amber-900 dark:text-amber-300">Bronze</span>
-                        </h2>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">학교에서 안 푼<br> 브론즈 문제 목록</p>
-                        <div class="card-actions justify-center">
-                            <div class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                목록 보기
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!--실버-->
-            <a href="/problem?kw=&page=0&types=SILVER" class="flex items-center lg:justify-center w-48">
-                <div class="card card-compact bg-base-100 shadow-xl">
-                    <figure>
-                        <img
-                                src="/images/Silver_Banner.webp" class="w-max"
-                                alt="Silver banner image"/>
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Unsolved
-                            <span class="bg-stone-100 text-stone-800 text-xs font-bold me-2 px-2.5 py-0.5 rounded dark:bg-stone-900 dark:text-stone-300">Silver</span>
-                        </h2>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">학교에서 안 푼<br> 실버 문제 목록</p>
-                        <div class="card-actions justify-center">
-                            <div class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                목록 보기
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!--골드-->
-            <a href="/problem?kw=&page=0&types=GOLD" class="flex items-center lg:justify-center w-48">
-                <div class="card card-compact bg-base-100 shadow-xl">
-                    <figure>
-                        <img
-                                src="/images/Gold_Banner.webp"
-                                alt="Gold banner image"/>
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Unsolved
-                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Gold</span>
-                        </h2>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">학교에서 안 푼<br> 골드 문제 목록</p>
-                        <div class="card-actions justify-center">
-                            <div class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                목록 보기
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!--플레-->
-            <a th:href="@{/unsolved-hgu/ranking}" class="flex items-center lg:justify-center w-48">
-                <div class="card card-compact bg-base-100 shadow-xl">
-                    <figure>
-                        <img
-                                src="/images/Platinum_Banner.webp"
-                                class="w-full"
-                                alt="Platinum banner image"/>
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Ranking
-                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold me-2 px-2.5 py-0.5 rounded dark:bg-emerald-900 dark:text-emerald-300">Ranking</span>
-                        </h2>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">교내 다양한 랭킹<br> 목록입니다.</p>
-                        <div class="card-actions justify-center">
-                            <div class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                목록 보기
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!--핫한 문제-->
-            <a href="/problem?kw=&page=0&types=FAVORITE" class="flex items-center lg:justify-center w-48">
-                <div class="card card-compact bg-base-100 shadow-xl">
-                    <figure>
-                        <img
-                                src="/images/Grandmaster_Banner.webp"
-                                alt="hot problem banner image"/>
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Loved
-                            <span class="bg-pink-100 text-pink-800 text-xs font-bold me-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">HOT</span>
-                        </h2>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">학교에서 많이 푼<br> 문제 목록</p>
-                        <div class="card-actions justify-center">
-                            <div class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                목록 보기
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="flex items-center lg:justify-center w-48">
-                <div class="card card-compact bg-base-100 shadow-xl">
-                    <figure>
-                        <img
-                                src="/images/Diamond_Banner.webp"
-                                alt="board banner image"/>
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            게시판
-                            <span class="bg-blue-100 text-blue-800 text-xs font-bold me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Board</span>
-                        </h2>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">자유로운 글을 작성하는 곳입니다.</p>
-                        <div class="card-actions justify-center">
-                            <div class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                목록 보기
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
+    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
+        <!-- Row -->
+        <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
+            <img class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/logos.jpg"
+                 alt="dashboard feature image">
+            <div class="text-gray-500 sm:text-lg dark:text-gray-400">
+                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">About Me</h2>
+                <p class="mb-8 font-light lg:text-xl">사이트 관련 문의 사항은 아래 메일로 보낼 수 있습니다!</p>
+                <!-- List -->
+                <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
+                    <li class="flex space-x-3">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">fpqpsxh@naver.com</span>
+                    </li>
+                    <li class="flex space-x-3">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white"><a
+                                href="https://readble-ko.tistory.com/" class="hover:underline">블로그 링크</a></span>
+                    </li>
+                    <li class="flex space-x-3">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white"><a
+                                href="https://github.com/readable-ko/" class="hover:underline">GitHub 링크</a></span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </section>
@@ -336,13 +348,13 @@
                       fill="currentColor"/>
             </svg>
             <blockquote>
-                <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"이르시되 무릇 사람이 할 수 없는 것을 하나님은 하실
-                    수 있느니라"</p>
+                <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"두려워하지 말라 내가 너와 함께 함이라 놀라지 말라
+                    나는 네 하나님이 됨이라 내가 너를 굳세게 하리라 참으로 너를 도와 주리라 참으로 나의 의로운 오른손으로 너를 붙들리라"</p>
             </blockquote>
             <figcaption class="flex items-center justify-center mt-6 space-x-3">
                 <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                    <div class="pr-3 font-medium text-gray-900 dark:text-white">누가복음</div>
-                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">18장 27절</div>
+                    <div class="pr-3 font-medium text-gray-900 dark:text-white">이사야</div>
+                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">41장 10절</div>
                 </div>
             </figcaption>
         </figure>

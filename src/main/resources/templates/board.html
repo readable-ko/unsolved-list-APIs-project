@@ -76,12 +76,12 @@
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
                         <a th:href="@{/unsolved-hgu}"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                           aria-current="page">홈</a>
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                            홈</a>
                     </li>
                     <li>
-                        <a href='javascript:void(0)'
-                           class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white">문제
+                        <a th:href="@{/problem}"
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">문제
                             목록</a>
                     </li>
                     <li>
@@ -91,12 +91,14 @@
                     </li>
                     <li>
                         <a th:href="@{/board}"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">게시판</a>
+                           class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
+                           aria-current="page">
+                            게시판</a>
                     </li>
                     <li>
                         <a th:href="@{/unsolved-hgu/introduction}"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">사이트
-                            소개</a>
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                            사이트 소개</a>
                     </li>
                 </ul>
             </div>
@@ -109,114 +111,43 @@
         <div class="mr-auto place-self-center lg:col-span-8 lg:order-1 order-2 w-full">
             <div class="flex w-full flex-col lg:flex-row">
 
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-                    <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">문제 목록 (많이 푼 문제는 검색기능을 지원하지 않습니다.)</h3>
-                    <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-2">
-                        <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input checked id="radio_all" type="radio" value="NONE" name="radio_list"
-                                           th:checked="${types == 'NONE'}"
-                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="radio_all"
-                                           class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">전체
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="radio_bronze" type="radio" value="BRONZE" name="radio_list"
-                                           th:checked="${types == 'BRONZE'}"
-                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="radio_bronze"
-                                           class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">브론즈
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="radio_silver" type="radio" value="SILVER" name="radio_list"
-                                           th:checked="${types == 'SILVER'}"
-                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="radio_silver"
-                                           class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">실버
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="radio_gold" type="radio" value="GOLD" name="radio_list"
-                                           th:checked="${types == 'GOLD'}"
-                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="radio_gold"
-                                           class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">골드
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="radio_platinum" type="radio" value="PLATINUM" name="radio_list"
-                                           th:checked="${types == 'PLATINUM'}"
-                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="radio_platinum"
-                                           class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">플래티넘
-                                    </label>
-                                </div>
-                            </li>
-                            <li class="w-full dark:border-gray-600">
-                                <div class="flex items-center ps-3">
-                                    <input id="radio_favorite" type="radio" value="FAVORITE" name="radio_list"
-                                           th:checked="${types == 'FAVORITE'}"
-                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="radio_favorite"
-                                           class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">많이
-                                        푼 문제
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full sm:mt-2">
+                    <h2 class="mb-4 font-semibold text-gray-900 dark:text-white">게시판</h2>
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3 w-1/12">
+                            <th scope="col" class="px-6 py-3 w-1/6">
                                 번호
                             </th>
-                            <th scope="col" class="px-6 py-3 w-3/12">
+                            <th scope="col" class="px-6 py-3 w-3/6">
                                 제목
                             </th>
-                            <th scope="col" class="px-6 py-3 w-2/12">
-                                티어
+                            <th scope="col" class="px-6 py-3 w-1/6">
+                                글쓴이
                             </th>
-                            <th scope="col" class="px-6 py-3 w-4/12">
-                                알고리즘
-                            </th>
-                            <th scope="col" class="px-6 py-3 w-2/12">
-                                링크
+                            <th scope="col" class="px-6 py-3 w-1/6">
+                                작성일시
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="problem, loop: ${paging}"
+                        <tr th:each="item, loop: ${paging}"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                th:text="${paging.getTotalElements() - (paging.number * paging.size) - loop.index}">
+                            </td>
                             <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}"
-                                   th:text="${problem.id}"></a>
+                                class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+                                <a th:href="@{|/board/detail/${item.id}|}" class="hover:underline hover:text-purple-700"
+                                   th:text="${item.subject}"></a>
+                                <span class="ml-2 text-blue-600 font-light"
+                                      th:text="${#lists.size(item.answers)}"></span>
                             </th>
-                            <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}"
-                                   th:text="${problem.solvedCount != 0} ? ${problem.title + ' (' + problem.solvedCount + '명)'} : ${problem.title}"></a>
+                            <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                th:text="${item.author}">
                             </td>
-                            <td th:text="${problem.getStringLevel}" class="px-6 py-4">
-                            </td>
-                            <td th:attr="data-original-text=${problem.getTagName}" th:text="${problem.getTagName}"
-                                class="px-6 py-4 toggle-content">
-                            </td>
-                            <td class="px-6 py-4">
-                                <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}"
-                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">풀기
-                                </a>
+                            <td th:text="${item.createdDate}"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             </td>
                         </tr>
                         </tbody>
@@ -238,20 +169,13 @@
                     </div>
                     <input type="search" id="search_query"
                            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
-                           placeholder="문제번호, 알고리즘, 제목 검색" required th:value="${kw}"/>
+                           placeholder="유저, 댓글, 제목, 내용 등 검색" required th:value="${kw}"/>
                     <button type="submit" id="btn_search"
                             class="text-white absolute end-2.5 bottom-2.5 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                         Search
                     </button>
                 </div>
             </form>
-
-            <label class="inline-flex items-end cursor-pointer justify-end px-4 pt-2 max-w-md mx-auto w-full">
-                <span class="ms-3 w-2/5 text-sm font-medium text-gray-900 dark:text-gray-300">알고리즘 분류 가리기</span>
-                <input type="checkbox" id="algorithm-toggle" class="sr-only peer" checked>
-                <!--                <input type="checkbox" class="toggle toggle-lg" checked="checked"/>-->
-                <div class="relative w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600"></div>
-            </label>
             <!--  페이징 관련  -->
             <nav aria-label="Page navigation example" class="px-6 mt-2 max-w-md mx-auto flex-col w-full"
                  th:if="${!paging.isEmpty()}">
@@ -281,6 +205,8 @@
         </div>
     </div>
 </section>
+
+<!-- End block -->
 <section class="bg-gray-50 dark:bg-gray-800">
     <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
         <figure class="max-w-screen-md mx-auto">
@@ -290,18 +216,19 @@
                       fill="currentColor"/>
             </svg>
             <blockquote>
-                <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"이르시되 무릇 사람이 할 수 없는 것을 하나님은 하실
-                    수 있느니라"</p>
+                <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"두려워하지 말라 내가 너와 함께 함이라 놀라지 말라
+                    나는 네 하나님이 됨이라 내가 너를 굳세게 하리라 참으로 너를 도와 주리라 참으로 나의 의로운 오른손으로 너를 붙들리라"</p>
             </blockquote>
             <figcaption class="flex items-center justify-center mt-6 space-x-3">
                 <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                    <div class="pr-3 font-medium text-gray-900 dark:text-white">누가복음</div>
-                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">18장 27절</div>
+                    <div class="pr-3 font-medium text-gray-900 dark:text-white">이사야</div>
+                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">41장 10절</div>
                 </div>
             </figcaption>
         </figure>
     </div>
 </section>
+<!-- End block -->
 <footer class="bg-white dark:bg-gray-800">
     <div class="max-w-screen-xl p-4 py-6 mx-auto lg:py-16 md:p-8 lg:p-10">
         <div class="grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -367,7 +294,7 @@
         <div class="text-center">
             <a href="#"
                class="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img src="/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="unsolved.hgu Logo"/>
+                <img src="/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="UGH Logo"/>
                 UGH
             </a>
             <span class="block text-sm text-center text-gray-500 dark:text-gray-400">© 2024 with <a
@@ -423,48 +350,15 @@
         </div>
     </div>
 </footer>
-<form th:action="@{/problem}" method="get" id="searchForm">
+<form th:action="@{/board}" method="get" id="searchForm">
     <input type="hidden" id="kw" name="kw" th:value="${kw}">
     <input type="hidden" id="page" name="page" th:value="${paging.number}">
-    <input type="hidden" id="types" name="types" th:value="${types}">
 </form>
-
 <script>
-    document.getElementById('algorithm-toggle').addEventListener('change', function () {
-        toggleContentVisibility(this.checked);
-    });
-
-    // 페이지 로드 시 초기 상태 설정
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggle = document.getElementById('algorithm-toggle');
-        toggleContentVisibility(toggle.checked);
-    });
-
-    function toggleContentVisibility(isChecked) {
-        const toggleContents = document.querySelectorAll('.toggle-content');
-        toggleContents.forEach(toggleContent => {
-            if (isChecked) {
-                toggleContent.textContent = '[가리기]';
-            } else {
-                toggleContent.textContent = toggleContent.getAttribute('data-original-text');
-            }
-        });
-    }
-
     const page_elements = document.getElementsByClassName("page-link");
     Array.from(page_elements).forEach(function (element) {
         element.addEventListener('click', function () {
             document.getElementById('page').value = this.dataset.page;
-            document.getElementById('searchForm').submit();
-        });
-    });
-
-    const radio_btn = document.querySelectorAll(".radio_list");
-    radio_btn.forEach(radio => {
-        radio.addEventListener('click', function () {
-            document.getElementById('kw').value = document.getElementById('search_query').value;
-            document.getElementById('types').value = radio.value;
-            document.getElementById('page').value = 0;
             document.getElementById('searchForm').submit();
         });
     });
@@ -474,10 +368,7 @@
         event.preventDefault();
         document.getElementById('kw').value = document.getElementById('search_query').value;
         console.log(document.getElementById('kw').value);
-        const selectedRadio = document.querySelector('input[name="radio_list"]:checked');
-        if (selectedRadio) {
-            document.getElementById('types').value = selectedRadio.value;
-        }
+
         document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
         document.getElementById('searchForm').submit();
     });
