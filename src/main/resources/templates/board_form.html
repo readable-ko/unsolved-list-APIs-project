@@ -40,7 +40,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
-<header class="fixed w-full z-50">
+<header class="fixed w-full">
     <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
             <a href="/unsolved-hgu" class="flex items-center">
@@ -92,13 +92,12 @@
                     <li>
                         <a th:href="@{/board}"
                            class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
-                           aria-current="page">
-                            게시판</a>
+                           aria-current="page">게시판</a>
                     </li>
                     <li>
                         <a th:href="@{/unsolved-hgu/introduction}"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
-                            사이트 소개</a>
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">사이트
+                            소개</a>
                     </li>
                 </ul>
             </div>
@@ -107,108 +106,44 @@
 </header>
 
 <section class="bg-white dark:bg-gray-900">
-    <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-12 lg:grid-cols-12 lg:pt-28">
-        <div class="mr-auto place-self-center lg:col-span-8 lg:order-1 order-2 w-full">
-            <div class="flex w-full flex-col lg:flex-row">
+    <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
+        <div class="relative overflow-x-auto">
+            <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <form th:action="@{/board/create}" th:object="${questionForm}" method="post">
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                         role="alert" th:if="${#fields.hasAnyErrors()}">
+                        <span class="font-medium" th:each="err: ${#fields.allErrors()}"
+                              th:text="${err}"></span>
+                    </div>
+                    <div class="mb-6">
+                        <label for="subject"
+                               class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">제목</label>
+                        <input type="text" th:field="*{subject}" required
+                               class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <label for="content"
+                           class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">내용</label>
+                    <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                        <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                            <textarea th:field="*{content}" rows="10"
+                                      class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-gray-300 dark:text-white dark:placeholder-gray-400"
+                                      placeholder="내용을 입력하세요." required></textarea>
+                        </div>
+                        <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                            <button type="submit"
+                                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800">
+                                Post comment
+                            </button>
+                            <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <p class="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should
+                    follow our <a href="#" class="text-purple-600 dark:text-purple-500 hover:underline">Community
+                        Guidelines</a>.</p>
 
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full sm:mt-2">
-                    <div class="mb-2 p-4 flex justify-between">
-                        <h2 class="font-semibold text-gray-900 dark:text-white">게시판</h2>
-                        <a type="button" th:href="@{/board/create}"
-                           class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
-                            글쓰기
-                        </a>
-                    </div>
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 w-1/6">
-                                번호
-                            </th>
-                            <th scope="col" class="px-6 py-3 w-3/6">
-                                제목
-                            </th>
-                            <th scope="col" class="px-6 py-3 w-1/6">
-                                글쓴이
-                            </th>
-                            <th scope="col" class="px-6 py-3 w-1/6">
-                                작성일시
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="item, loop: ${paging}"
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                th:text="${paging.getTotalElements() - (paging.number * paging.size) - loop.index}">
-                            </td>
-                            <th scope="row"
-                                class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
-                                <a th:href="@{|/board/detail/${item.id}|}" class="hover:underline hover:text-purple-700"
-                                   th:text="${item.subject}"></a>
-                                <span class="ml-2 text-blue-600 font-light"
-                                      th:if="${#lists.size(item.answers) > 0}"
-                                      th:text="${#lists.size(item.answers)}"></span>
-                            </th>
-                            <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                th:text="${item.author}">
-                            </td>
-                            <td th:text="${#temporals.format(item.createdDate, 'yyyy-MM-dd HH:mm')}"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
-        </div>
-        <div class="lg:mt-0 lg:col-span-4 lg:order-2 order-1 mt-2">
-            <form class="px-4 max-w-md mx-auto flex-col w-full">
-                <label for="search_query"
-                       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                    </div>
-                    <input type="search" id="search_query"
-                           class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
-                           placeholder="유저, 댓글, 제목, 내용 등 검색" required th:value="${kw}"/>
-                    <button type="submit" id="btn_search"
-                            class="text-white absolute end-2.5 bottom-2.5 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                        Search
-                    </button>
-                </div>
-            </form>
-            <!--  페이징 관련  -->
-            <nav aria-label="Page navigation example" class="px-6 mt-2 max-w-md mx-auto flex-col w-full"
-                 th:if="${!paging.isEmpty()}">
-                <ul class="inline-flex -space-x-px text-base h-10 justify-items-center">
-                    <li class="page-item">
-                        <a th:if="${paging.hasPrevious}" href="javascript:void(0)" th:data-page="${paging.number -1}"
-                           class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-                        <a th:unless="${paging.hasPrevious}" href="javascript:void(0)"
-                           th:data-page="${paging.number}"
-                           class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-                    </li>
-                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages - 1)}"
-                        th:if="${page >= (paging.number - 2) and page <= (paging.number + 2)}"
-                        th:classappend="${page == paging.number} ? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'">
-                        <a href="javascript:void(0)" th:data-page="${page}" th:text="${page + 1}"
-                           class="page-link flex items-center justify-center px-4 h-10"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a th:if="${paging.hasNext}" href="javascript:void(0)" th:data-page="${paging.number + 1}"
-                           class="page-link flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-                        <a th:unless="${paging.hasNext}" href="javascript:void(0)" th:data-page="${paging.number}"
-                           class="page-link flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-                    </li>
-                </ul>
-            </nav>
-            <!--  페이징 끝  -->
         </div>
     </div>
 </section>
@@ -357,29 +292,6 @@
         </div>
     </div>
 </footer>
-<form th:action="@{/board}" method="get" id="searchForm">
-    <input type="hidden" id="kw" name="kw" th:value="${kw}">
-    <input type="hidden" id="page" name="page" th:value="${paging.number}">
-</form>
-<script>
-    const page_elements = document.getElementsByClassName("page-link");
-    Array.from(page_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            document.getElementById('page').value = this.dataset.page;
-            document.getElementById('searchForm').submit();
-        });
-    });
-
-    const btn_search = document.getElementById("btn_search");
-    btn_search.addEventListener('click', function (event) {
-        event.preventDefault();
-        document.getElementById('kw').value = document.getElementById('search_query').value;
-        console.log(document.getElementById('kw').value);
-
-        document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
-        document.getElementById('searchForm').submit();
-    });
-</script>
 <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
 </body>
 </html>

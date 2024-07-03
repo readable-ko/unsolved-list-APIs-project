@@ -53,8 +53,8 @@
                        data-icon="octicon-star" data-show-count="true" aria-label="Star themesberg/landwind on GitHub">Star</a>
                 </div>
                 <!-- <a href="#" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a> -->
-                <a href="https://themesberg.com/product/tailwind-css/landing-page"
-                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Download</a>
+                <a th:href="@{/user/signup}"
+                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">회원가입</a>
                 <button data-collapse-toggle="mobile-menu-2" type="button"
                         class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="mobile-menu-2" aria-expanded="false">
@@ -95,7 +95,7 @@
                            aria-current="page">게시판</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)"
+                        <a th:href="@{/unsolved-hgu/introduction}"
                            class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">사이트
                             소개</a>
                     </li>
@@ -105,7 +105,7 @@
     </nav>
 </header>
 
-<section class="bg-gray-50 dark:bg-gray-800">
+<section class="bg-white dark:bg-gray-900">
     <div class="flex max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6 lg:grid lg:grid-cols-8">
         <!-- Row -->
         <div class="w-full place-self-center gap-8 lg:col-span-6 xl:gap-16">
@@ -119,107 +119,90 @@
                 <!-- List -->
             </div>
         </div>
-        <div class="flex items-end gap-8 lg:col-span-2 xl:gap-16" th:text="${question.createdDate}"></div>
+        <div class="flex items-end gap-8 lg:col-span-2 xl:gap-16"
+             th:text="${#temporals.format(question.createdDate, 'yyyy-MM-dd HH:mm')}"></div>
     </div>
 </section>
 
 
-<section class="bg-white dark:bg-gray-900">
-    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
+<section class="bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-8">
         <!-- Row -->
-        <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-            <!--            <img class="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="/images/logos.jpg"-->
-            <!--                 alt="dashboard feature image">-->
-
-            <div class="flex items-start gap-2.5">
-                <img class="w-8 h-8 rounded-full" src="/images/me.jpeg" alt="Jese image">
-                <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                        <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-                    </div>
-                    <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our
-                        users will really appreciate the improvements.</p>
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+        <div class="w-full flex gap-8 xl:gap-16 items-center px-2" th:each="answer : ${question.answers}">
+            <img class="w-8 h-8 rounded-full" src="/images/me.jpeg" alt="Jese image">
+            <div class="flex flex-col w-full max-w-screen-lg leading-1.5 p-4 border-gray-200 bg-white rounded-e-xl rounded-es-xl dark:bg-gray-900">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white" th:text="${answer.author}"></span>
+                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400"
+                          th:text="${#temporals.format(answer.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
-                <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
-                        data-dropdown-placement="bottom-start"
-                        class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
-                        type="button">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                    </svg>
-                </button>
-                <div id="dropdownDots"
-                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
-                        <li>
-                            <a href="#"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-                        </li>
-                    </ul>
-                </div>
+                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white" th:text="${answer.content}"></p>
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
             </div>
-
-            <div class="text-gray-500 sm:text-lg dark:text-gray-400">
-                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">About Me</h2>
-                <p class="mb-8 font-light lg:text-xl">사이트 관련 문의 사항은 아래 메일로 보낼 수 있습니다!</p>
-                <!-- List -->
-                <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
-                    <li class="flex space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
-                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">fpqpsxh@naver.com</span>
+            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
+                    data-dropdown-placement="bottom-start"
+                    class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
+                    type="button">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                    <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                </svg>
+            </button>
+            <div id="dropdownDots"
+                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                    <li>
+                        <a href="#"
+                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
                     </li>
-                    <li class="flex space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
-                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white"><a
-                                href="https://readble-ko.tistory.com/" class="hover:underline">블로그 링크</a></span>
+                    <li>
+                        <a href="#"
+                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천</a>
                     </li>
-                    <li class="flex space-x-3">
-                        <!-- Icon -->
-                        <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor"
-                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="text-base font-medium leading-tight text-gray-900 dark:text-white"><a
-                                href="https://github.com/readable-ko/" class="hover:underline">GitHub 링크</a></span>
+                    <li>
+                        <a href="#"
+                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">복사</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </section>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
+        <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post">
+            <label for="chat" class="sr-only">Your message</label>
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                 th:if="${#fields.hasAnyErrors()}"
+                 role="alert">
+                <span class="font-medium" th:each="err: ${#fields.allErrors()}" th:text="${err}"></span>
+            </div>
+            <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
+                <textarea th:field="*{content}" id="chat" rows="3"
+                          class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder="Your message..."></textarea>
+                <button type="submit"
+                        class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                    <svg class="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor" viewBox="0 0 18 20">
+                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                    </svg>
+                    <span class="sr-only">Send message</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
 <!-- End block -->
 <section class="bg-gray-50 dark:bg-gray-800">
     <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
