@@ -36,10 +36,6 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
     <link href="/styles/tailwind.css" rel="stylesheet">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
@@ -57,12 +53,8 @@
                        data-icon="octicon-star" data-show-count="true" aria-label="Star themesberg/landwind on GitHub">Star</a>
                 </div>
                 <!-- <a href="#" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a> -->
-                <a th:href="@{/user/logout}" sec:authorize="isAuthenticated()"
-                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">로그아웃</a>
-                <a th:href="@{/user/login}" sec:authorize="isAnonymous()"
-                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">로그인</a>
                 <a th:href="@{/user/signup}"
-                   class="mx-2 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">회원가입</a>
+                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">회원가입</a>
                 <button data-collapse-toggle="mobile-menu-2" type="button"
                         class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="mobile-menu-2" aria-expanded="false">
@@ -114,167 +106,39 @@
 </header>
 
 <section class="bg-white dark:bg-gray-900">
-    <div class="flex max-w-screen-xl px-4 pt-20 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6 lg:pt-28 lg:grid lg:grid-cols-8">
-        <!-- Row class="text-gray-500 sm:text-lg dark:text-gray-400" -->
-        <div class="w-full place-self-center gap-8 lg:col-span-6 xl:gap-16">
-            <div>
-                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
-                    th:text="${question.subject}"></h2>
-                <div class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"></div>
-                <div class="mb-8 markdown-content prose" th:utext="${@commonUtil.markdown(question.content)}"></div>
-                <a href="javascript:void(0);" th:data-uri="@{|/board/vote/${question.id}|}"
-                   class="recommend inline-flex items-center px-5 py-2.5 text-sm font-bold text-center text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 rounded-lg me-2 mb-2 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900">
-                    추천
-                    <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-purple-800 bg-purple-200 rounded-full"
-                          th:text="${#lists.size(question.voter)}">
-                    </span>
-                </a>
-                <!-- List -->
-            </div>
-        </div>
-        <div class="place-self-center gap-8 lg:col-span-2 xl:gap-16 h-full">
-            <div class="flex flex-col w-full">
-                <button id="questionIconButton" data-dropdown-toggle="questionDots"
-                        data-dropdown-placement="bottom-start"
-                        class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-white bg-gray-50 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
-                        type="button">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                    </svg>
-                </button>
-                <div id="questionDots"
-                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="questionDots">
-                        <li>
-                            <a href="#answer_textarea"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">답변</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);" th:data-uri="@{|/board/vote/${question.id}|}"
-                               class="recommend block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천</a>
-                        </li>
-                        <li>
-                            <a th:href="@{|/board/modify/${question.id}|}"
-                               sec:authorize="isAuthenticated()"
-                               th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);" th:data-uri="@{|/board/delete/${question.id}|}"
-                               sec:authorize="isAuthenticated()"
-                               th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
-                               class="delete block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="flex justify-center text-right items-end flex-col gap-2 xl:gap-2 mb-8 font-light lg:text h-full">
-                <p th:text="'작성일: ' + ${#temporals.format(question.createdDate, 'yyyy-MM-dd HH:mm')}"></p>
-                <p th:if="${question.modifiedDate != null}"
-                   th:text="'수정일: ' + ${#temporals.format(question.modifiedDate, 'yyyy-MM-dd HH:mm')}"></p>
-                <p class="font-light lg:text" th:text="'작성자: ' + ${question.author.username}"></p>
-            </div>
-        </div>
-    </div>
-</section>
+    <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
+        <div class="relative overflow-x-auto">
+            <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <form method="post" th:object="${answerForm}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                         role="alert" th:if="${#fields.hasAnyErrors()}">
+                                            <span class="font-medium" th:each="err: ${#fields.allErrors()}"
+                                                  th:text="${err}"></span>
+                    </div>
+                    <label for="content"
+                           class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">내용</label>
+                    <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                        <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                            <textarea th:field="*{content}" rows="10"
+                                      class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-gray-300 dark:text-white dark:placeholder-gray-400"
+                                      placeholder="내용을 입력하세요." required></textarea>
+                        </div>
+                        <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                            <button type="submit"
+                                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800">
+                                Post comment
+                            </button>
+                            <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <p class="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should
+                    follow our <a href="#" class="text-purple-600 dark:text-purple-500 hover:underline">Community
+                        Guidelines</a>.</p>
 
-
-<section class="bg-gray-50 dark:bg-gray-800">
-    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-8">
-        <!-- Row -->
-        <div class="w-full flex gap-8 xl:gap-16 items-center px-2" th:each="answer, loop : ${question.answers}">
-            <a th:id="|answer_${answer.id}|"></a>
-            <div class="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                <svg class="absolute w-10 h-10 text-gray-400 -left-2.5" fill="currentColor" viewBox="0 0 20 20"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clip-rule="evenodd"></path>
-                </svg>
             </div>
-            <div class="flex flex-col w-full max-w-screen-lg leading-1.5 p-4 border-gray-200 bg-white rounded-e-xl rounded-es-xl dark:bg-gray-900">
-                <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                          th:text="${answer.author.username}"></span>
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                          th:text="'작성일: ' + ${#temporals.format(answer.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                          th:if="${answer.modifiedDate != null}"
-                          th:text="'수정일: ' + ${#temporals.format(answer.modifiedDate, 'yyyy-MM-dd HH:mm')}"></span>
-                </div>
-                <div class="text-sm font-normal py-2.5 text-gray-900 dark:text-white prose"
-                     th:utext="${@commonUtil.markdown(answer.content)}"></div>
-                <a href="javascript:void(0);" th:data-uri="@{|/answer/vote/${answer.id}|}"
-                   class="recommend w-fit h-fit inline-flex items-center px-2 py-2 text-sm font-normal text-center text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 rounded-lg me-2 mb-1 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900">
-                    추천
-                    <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-purple-800 bg-purple-200 rounded-full"
-                          th:text="${#lists.size(answer.voter)}">
-                    </span>
-                </a>
-            </div>
-            <button th:id="${loop.index} + 'Button'" th:data-dropdown-toggle="${loop.index} + 'dropdown'"
-                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                    type="button">
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                     viewBox="0 0 16 3">
-                    <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                </svg>
-            </button>
-
-            <!-- Dropdown menu -->
-            <div th:id="${loop.index} + 'dropdown'"
-                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                    aria-labelledby="dropdownMenuIconHorizontalButton">
-                    <li>
-                        <a href="javascript:void(0);" th:data-uri="@{|/answer/vote/${answer.id}|}"
-                           class="recommend block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천</a>
-                    </li>
-                </ul>
-                <div class="py-2" th:if="${answer.author != null && answer.author.username == #authentication.name}">
-                    <a th:href="@{|/answer/modify/${answer.getId()}|}"
-                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">수정
-                    </a>
-                    <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.getId()}|}"
-                       class="block delete px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">삭제
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="bg-white dark:bg-gray-900" id="answer_textarea">
-    <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
-        <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post"
-              sec:authorize="isAuthenticated()">
-            <label for="content" class="sr-only">Your message</label>
-            <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                <textarea th:field="*{content}" rows="3"
-                          class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="Your message..."></textarea>
-                <button type="submit"
-                        class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                    <svg class="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                         fill="currentColor" viewBox="0 0 18 20">
-                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
-                    </svg>
-                    <span class="sr-only">Send message</span>
-                </button>
-            </div>
-        </form>
-        <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700" sec:authorize="isAnonymous()">
-                <textarea name="sample" id="sample" rows="3" disabled
-                          class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="답변을 하려면 로그인 해주세요."></textarea>
-            <button type="submit" disabled
-                    class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                <svg class="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                     fill="currentColor" viewBox="0 0 18 20">
-                    <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
-                </svg>
-                <span class="sr-only">Send message</span>
-            </button>
         </div>
     </div>
 </section>
@@ -423,25 +287,6 @@
         </div>
     </div>
 </footer>
-<script type="text/javascript">
-    const delete_elements = document.getElementsByClassName("delete");
-    Array.from(delete_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("정말로 삭제하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            }
-        });
-    });
-
-    const recommend_elements = document.getElementsByClassName("recommend");
-    Array.from(recommend_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("추천 하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            }
-        });
-    });
-</script>
 <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
 </body>
 </html>
