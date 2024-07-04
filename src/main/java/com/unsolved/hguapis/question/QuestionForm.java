@@ -2,14 +2,11 @@ package com.unsolved.hguapis.question;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class QuestionForm {
     @NotEmpty(message = "제목은 필수항목입니다.")
     @Size(max = 200)

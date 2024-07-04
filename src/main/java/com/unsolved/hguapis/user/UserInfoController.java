@@ -22,12 +22,17 @@ public class UserInfoController {
     @GetMapping("/ranking")
     public String test(@RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String kw,
-                       @RequestParam(value = "types", defaultValue = "CLASS") String types, Model model) {
+                       @RequestParam(value = "types", defaultValue = "CONTRIBUTE") String types, Model model) {
         Page<UserInfoDto> paging = this.userInfoService.getAllUserInfos(page, kw, types);
 
         model.addAttribute("paging", paging);
         model.addAttribute("types", types);
         model.addAttribute("kw", kw);
         return "ranking";
+    }
+
+    @GetMapping("/introduction")
+    public String introduction() {
+        return "introduce";
     }
 }

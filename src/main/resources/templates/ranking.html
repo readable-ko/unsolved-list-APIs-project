@@ -53,8 +53,12 @@
                        data-icon="octicon-star" data-show-count="true" aria-label="Star themesberg/landwind on GitHub">Star</a>
                 </div>
                 <!-- <a href="#" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a> -->
-                <a href="https://themesberg.com/product/tailwind-css/landing-page"
-                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Download</a>
+                <a th:href="@{/user/logout}" sec:authorize="isAuthenticated()"
+                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">로그아웃</a>
+                <a th:href="@{/user/login}" sec:authorize="isAnonymous()"
+                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">로그인</a>
+                <a th:href="@{/user/signup}"
+                   class="mx-2 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">회원가입</a>
                 <button data-collapse-toggle="mobile-menu-2" type="button"
                         class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="mobile-menu-2" aria-expanded="false">
@@ -75,27 +79,29 @@
             <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
-                        <a href="/unsolved-hgu"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                           aria-current="page">홈</a>
+                        <a th:href="@{/unsolved-hgu}"
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                            홈</a>
                     </li>
                     <li>
-                        <a href="/problem"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">교내
+                        <a th:href="@{/problem}"
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">문제
                             목록</a>
                     </li>
                     <li>
-                        <a href='javascript:void(0)'
-                           class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white">
+                        <a th:href="@{/unsolved-hgu/ranking}"
+                           class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
+                           aria-current="page">교내
                             랭킹</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a th:href="@{/board}"
                            class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">게시판</a>
                     </li>
                     <li>
-                        <a href="#"
-                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                        <a th:href="@{/unsolved-hgu/introduction}"
+                           class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">사이트
+                            소개</a>
                     </li>
                 </ul>
             </div>
@@ -114,7 +120,7 @@
                                 <div class="flex items-center ps-3">
                                     <input id="radio_donate" type="radio" value="CONTRIBUTE" name="radio_list"
                                            th:checked="${types == 'CONTRIBUTE'}"
-                                           class="radio_list w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="radio_donate"
                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">랭킹
                                         기여순
@@ -125,7 +131,7 @@
                                 <div class="flex items-center ps-3">
                                     <input id="radio_tier" type="radio" value="TIER" name="radio_list"
                                            th:checked="${types == 'TIER'}"
-                                           class="radio_list w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="radio_tier"
                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">티어
                                         순
@@ -136,7 +142,7 @@
                                 <div class="flex items-center ps-3">
                                     <input id="radio_modify" type="radio" value="RECENT" name="radio_list"
                                            th:checked="${types == 'RECENT'}"
-                                           class="radio_list w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="radio_modify"
                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">가장
                                         최근순
@@ -147,7 +153,7 @@
                                 <div class="flex items-center ps-3">
                                     <input id="radio_solved" type="radio" value="COUNT" name="radio_list"
                                            th:checked="${types == 'COUNT'}"
-                                           class="radio_list w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="radio_solved"
                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">문제순
                                     </label>
@@ -157,7 +163,7 @@
                                 <div class="flex items-center ps-3">
                                     <input id="radio_class" type="radio" value="CLASS" name="radio_list"
                                            th:checked="${types == 'CLASS'}"
-                                           class="radio_list w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                           class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="radio_class"
                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">클래스순
                                     </label>
@@ -267,7 +273,7 @@
         </div>
     </div>
 </section>
-
+<!-- End block -->
 <section class="bg-gray-50 dark:bg-gray-800">
     <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
         <figure class="max-w-screen-md mx-auto">
@@ -277,18 +283,19 @@
                       fill="currentColor"/>
             </svg>
             <blockquote>
-                <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"이르시되 무릇 사람이 할 수 없는 것을 하나님은 하실
-                    수 있느니라"</p>
+                <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"어떤 사람은 병거 어떤 사람은 말을 의지하나<br>
+                    우리는 여호와 우리 하나님의 이름을 자랑하리로다"</p>
             </blockquote>
             <figcaption class="flex items-center justify-center mt-6 space-x-3">
                 <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                    <div class="pr-3 font-medium text-gray-900 dark:text-white">누가복음</div>
-                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">18장 27절</div>
+                    <div class="pr-3 font-medium text-gray-900 dark:text-white">시편</div>
+                    <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">20편 7절</div>
                 </div>
             </figcaption>
         </figure>
     </div>
 </section>
+<!-- End block -->
 <footer class="bg-white dark:bg-gray-800">
     <div class="max-w-screen-xl p-4 py-6 mx-auto lg:py-16 md:p-8 lg:p-10">
         <div class="grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -354,7 +361,7 @@
         <div class="text-center">
             <a href="#"
                class="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img src="/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="unsolved.hgu Logo"/>
+                <img src="/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="UGH Logo"/>
                 UGH
             </a>
             <span class="block text-sm text-center text-gray-500 dark:text-gray-400">© 2024 with <a
@@ -415,9 +422,7 @@
     <input type="hidden" id="page" name="page" th:value="${paging.number}">
     <input type="hidden" id="types" name="types" th:value="${types}">
 </form>
-
 <script>
-
     const page_elements = document.getElementsByClassName("page-link");
     Array.from(page_elements).forEach(function (element) {
         element.addEventListener('click', function () {
@@ -449,5 +454,6 @@
         document.getElementById('searchForm').submit();
     });
 </script>
+<script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
 </body>
 </html>
