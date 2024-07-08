@@ -1,7 +1,7 @@
 package com.unsolved.hguapis.answer;
 
 import com.unsolved.hguapis.question.Question;
-import com.unsolved.hguapis.siteUser.SiteUser;
+import com.unsolved.hguapis.user.SiteUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package com.unsolved.hguapis.question;
 
 import com.unsolved.hguapis.answer.Answer;
-import com.unsolved.hguapis.siteUser.SiteUser;
+import com.unsolved.hguapis.user.SiteUser;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,16 +18,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Question {
+    @ManyToMany
+    Set<SiteUser> voter;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(length = 200)
     private String subject;
@@ -35,18 +40,14 @@ public class Question {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column
     private LocalDateTime createdDate;
 
-    @Column
-    private LocalDateTime modifiedDate;
-
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answers;
+    private List<Answer> answerList;
 
     @ManyToOne
     private SiteUser author;
 
-    @ManyToMany
-    Set<SiteUser> voter;
+    @Column
+    private LocalDateTime modifiedDate;
 }

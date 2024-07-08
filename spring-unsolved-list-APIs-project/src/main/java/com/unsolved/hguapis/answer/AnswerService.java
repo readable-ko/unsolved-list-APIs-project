@@ -2,7 +2,7 @@ package com.unsolved.hguapis.answer;
 
 import com.unsolved.hguapis.exception.DataNotFoundException;
 import com.unsolved.hguapis.question.Question;
-import com.unsolved.hguapis.siteUser.SiteUser;
+import com.unsolved.hguapis.user.SiteUser;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

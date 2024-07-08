@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <!-- Social media share -->
+    <meta property="og:title" content="UGH - Unsolved Guideline for HGU">
+    <meta property="og:site_name" content="UGH">
+    <meta property="og:url"
+          content="https://private-user-images.githubusercontent.com/70497430/345882415-827f036e-4323-4658-9e4a-7f0b51d4e309.png">
+    <meta property="og:description" content="Get start problem solving with a UGH.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/images/logos.jpg">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+    <!-- sbb CSS -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/mycss.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <title>UGH - Unsolved Guideline for HGU</title>
+</head>
+<body>
+<!--네비게이션 바 -->
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<th:block layout:fragment="content"></th:block>
+
+<div th:replace="~{footer :: footerFragment}"></div>
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- 부트 스트랩 자바스크립트 -->
+<script th:src="@{/bootstrap.min.js}"></script>
+<!--자바 스크립트 start -->
+<th:block layout:fragment="script"></th:block>
+<!--자바 스크립트 end -->
+<script>
+    // JavaScript 코드
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownToggle = document.getElementById('mobile-button');
+        const dropdownMenu = document.getElementById('mobile-menu-2');
+
+        dropdownToggle.addEventListener('click', function (event) {
+            event.preventDefault();
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // 클릭 이외의 영역을 클릭하면 dropdown이 닫히도록 설정
+        document.addEventListener('click', function (event) {
+            const isClickInside = dropdownToggle.contains(event.target) || dropdownMenu.contains(event.target);
+            if (!isClickInside) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const htmlElement = document.documentElement;
+
+        // 다크 모드 상태를 로컬 저장소에서 불러오기
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('theme') === 'dark') {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        // 버튼 클릭 시 다크 모드 토글
+        darkModeToggle.addEventListener('click', function () {
+            htmlElement.classList.toggle('dark');
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                localStorage.theme = 'dark'
+            } else {
+                localStorage.setItem('theme', 'light');
+                localStorage.theme = 'light'
+            }
+        });
+    });
+
+    // nav 위치 알려주기
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+
+                link.classList.add('py-2', 'pl-3', 'pr-4', 'text-white', 'bg-purple-700', 'rounded', 'lg:bg-transparent', 'lg:text-purple-700', 'lg:p-0', 'dark:text-white');
+            } else {
+                link.classList.add('text-gray-700', 'border-b', 'border-gray-100', 'hover:bg-gray-50', 'lg:hover:bg-transparent', 'lg:border-0', 'lg:hover:text-purple-700', 'lg:p-0', 'dark:text-gray-400', 'lg:dark:hover:text-white', 'dark:hover:bg-gray-700', 'dark:hover:text-white', 'lg:dark:hover:bg-transparent', 'dark:border-gray-700');
+            }
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

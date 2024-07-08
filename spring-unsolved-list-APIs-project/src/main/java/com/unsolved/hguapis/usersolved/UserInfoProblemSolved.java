@@ -1,7 +1,7 @@
 package com.unsolved.hguapis.usersolved;
 
 import com.unsolved.hguapis.problem.Problem;
-import com.unsolved.hguapis.user.UserInfo;
+import com.unsolved.hguapis.userinfo.UserInfo;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
