@@ -15,7 +15,7 @@ class HguApIsApplicationTests {
         for (int i = 0; i < 100; i++) {
             String subject = String.format("테스트 데이터입니다.[%03d]", i);
             String content = "이 땅에 영광 있으리라";
-            this.questionService.createQuestion(subject, content, null);
+            this.questionService.create(subject, content, null);
         }
     }
 

@@ -1,0 +1,138 @@
+<!--<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <section class="bg-white dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-12 lg:grid-cols-12 lg:pt-28">
+            <div class="lg:mt-0 lg:col-span-4 xl:order-2 sm:order-1 md:order-1 lg:order-2 mt-2 pt-1">
+                <form class="px-4 max-w-md mx-auto flex-col w-full">
+                    <label for="search_query"
+                           class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-2 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="search" id="search_query"
+                               class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+                               placeholder="유저, 댓글, 제목, 내용 검색" required th:value="${kw}"/>
+                        <button type="submit" id="btn_search"
+                                class="text-white absolute end-2.5 bottom-2.5 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                            Search
+                        </button>
+                    </div>
+                </form>
+                <!--  페이징 관련  -->
+                <nav aria-label="Page navigation example" class="px-6 mt-2 max-w-md mx-auto flex-col w-full"
+                     th:if="${!paging.isEmpty()}">
+                    <ul class="inline-flex -space-x-px text-base h-10 justify-items-center">
+                        <li class="page-item">
+                            <a th:if="${paging.hasPrevious}" href="javascript:void(0)"
+                               th:data-page="${paging.number -1}"
+                               class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                            <a th:unless="${paging.hasPrevious}" href="javascript:void(0)"
+                               th:data-page="${paging.number}"
+                               class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                        </li>
+                        <li th:each="page: ${#numbers.sequence(0, paging.totalPages - 1)}"
+                            th:if="${page >= (paging.number - 2) and page <= (paging.number + 2)}"
+                            th:classappend="${page == paging.number} ? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'">
+                            <a href="javascript:void(0)" th:data-page="${page}" th:text="${page + 1}"
+                               class="page-link flex items-center justify-center px-4 h-10"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                            <a th:if="${paging.hasNext}" href="javascript:void(0)" th:data-page="${paging.number + 1}"
+                               class="page-link flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                            <a th:unless="${paging.hasNext}" href="javascript:void(0)" th:data-page="${paging.number}"
+                               class="page-link flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                <!--  페이징 끝  -->
+            </div>
+            <div class="mr-auto place-self-center lg:col-span-8 sm:order-2 md:order-2 lg:order-1 xl:order-1 w-full">
+                <div class="flex w-full flex-col lg:flex-row">
+
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full sm:mt-2">
+                        <div class="mb-2 p-4 flex justify-between">
+                            <h2 class="font-semibold text-gray-900 dark:text-white">게시판</h2>
+                            <a type="button" th:href="@{/question/create}"
+                               class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
+                                글쓰기
+                            </a>
+                        </div>
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 w-1/6">
+                                    번호
+                                </th>
+                                <th scope="col" class="px-6 py-3 w-3/6">
+                                    제목
+                                </th>
+                                <th scope="col" class="px-6 py-3 w-1/6">
+                                    글쓴이
+                                </th>
+                                <th scope="col" class="px-6 py-3 w-1/6">
+                                    작성일시
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item, loop: ${paging}"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    th:text="${paging.getTotalElements() - (paging.number * paging.size) - loop.index}">
+                                </td>
+                                <th scope="row"
+                                    class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+                                    <a th:href="@{|/question/detail/${item.id}|}"
+                                       class="hover:underline hover:text-purple-700"
+                                       th:text="${item.subject}"></a>
+                                    <span class="ml-2 text-blue-600 font-light"
+                                          th:if="${#lists.size(item.answerList) > 0}"
+                                          th:text="${#lists.size(item.answerList)}"></span>
+                                </th>
+                                <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    th:text="${item.author != null} ? ${item.author.username} : ' '">
+                                </td>
+                                <td th:text="${#temporals.format(item.createdDate, 'yyyy-MM-dd HH:mm')}"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  페이징 끝  -->
+    <form th:action="@{/question/list}" method="get" id="searchForm">
+        <input type="hidden" id="kw" name="kw" th:value="${kw}">
+        <input type="hidden" id="page" name="page" th:value="${paging.number}">
+    </form>
+</div>
+<script layout:fragment="script" type="text/javascript">
+    const page_elements = document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            document.getElementById('page').value = this.dataset.page;
+            document.getElementById('searchForm').submit();
+        });
+    });
+
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function (event) {
+        event.preventDefault();
+        document.getElementById('kw').value = document.getElementById('search_query').value;
+        console.log(document.getElementById('kw').value);
+
+        document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+        document.getElementById('searchForm').submit();
+    });
+</script>
+</html>
