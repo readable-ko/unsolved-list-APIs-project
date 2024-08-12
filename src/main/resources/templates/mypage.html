@@ -1,0 +1,428 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="header">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</div>
+<div layout:fragment="content">
+    <section class="bg-white dark:bg-gray-900">
+        <div class="h-8"></div>
+        <div class="mt-8 grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+            <div class="mr-auto place-self-center lg:col-span-7 w-full">
+                <h1 class="max-w-2xl mb-4 text-2xl font-bold tracking-tight leading-none md:text-3xl xl:text-6xl dark:text-white lg:mb-8">
+                    내 정보
+                </h1>
+                <!--                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">-->
+
+                <dl class="max-w-2xl mt-2 mb-6 text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+                    <div class="flex w-full justify-between pb-3">
+                        <div class="flex flex-col">
+                            <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Email 주소</dt>
+                            <dd class="text-lg font-semibold" id="email" th:text="${user.getEmail()}"></dd>
+                        </div>
+                    </div>
+                    <div class="flex flex-col"
+                         th:if="${#authentication.getPrincipal().getUsername() != user.getUsername()}">
+                        <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">닉네임</dt>
+                        <dd class="text-lg font-semibold" th:text="${user.getUsername()}"></dd>
+                    </div>
+                    <div class="flex w-full justify-between py-3 items-center"
+                         th:if="${#authentication.getPrincipal().getUsername() == user.getUsername()}">
+                        <form th:action="@{|/user/update/username|}" method="post" th:object="${usernameForm}"
+                              class="flex w-full justify-between items-center">
+                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                 role="alert" th:if="${#fields.hasAnyErrors()}">
+                                            <span class="font-medium" th:each="err: ${#fields.allErrors()}"
+                                                  th:text="${err}"></span>
+                            </div>
+                            <div class="flex flex-col">
+                                <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">닉네임</dt>
+                                <input type="text" id="username" name="username" th:field="*{username}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-lg font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       th:value="${user.getUsername()}" required/>
+                            </div>
+                            <a sec:authorize="isAuthenticated()" href="javascript:void(0);"
+                               th:data-uri="@{|/user/update/username|}"
+                               th:if="${#authentication.getPrincipal().getUsername() == user.getUsername()}"
+                               id="change-button"
+                               class="inline-flex items-center justify-center px-4 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                                변경하기
+                                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </form>
+                    </div>
+                    <!--CORS 오류로 기능 개발 불가능 보류-->
+                    <!--                    <div class="flex w-full justify-between py-3 items-center">-->
+                    <!--                        <div class="flex flex-col">-->
+                    <!--                            <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Solved 계정 연동 여부</dt>-->
+                    <!--                            <dd class="text-lg font-semibold" id="test">+00 123 456 789 / +12 345 678</dd>-->
+                    <!--                        </div>-->
+                    <!--                        <a href="javascript:void(0);" sec:authorize="isAuthenticated()" id="connect-button"-->
+                    <!--                           th:if="${#authentication.getPrincipal().getUsername() == user.getUsername()}"-->
+                    <!--                           class="inline-flex items-center justify-center px-4 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">-->
+                    <!--                            연동하기-->
+                    <!--                            <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"-->
+                    <!--                                 xmlns="http://www.w3.org/2000/svg">-->
+                    <!--                                <path fill-rule="evenodd"-->
+                    <!--                                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"-->
+                    <!--                                      clip-rule="evenodd"></path>-->
+                    <!--                            </svg>-->
+                    <!--                        </a>-->
+                    <!--                    </div>-->
+                    <div class="flex w-full justify-between pb-3">
+                        <div class="flex flex-col">
+                            <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">가입 경로</dt>
+                            <dd class="text-lg font-semibold" id="provider" th:text="${user.getProvider()}"></dd>
+                        </div>
+                    </div>
+                </dl>
+
+            </div>
+            <div class="lg:mt-0 lg:col-span-5 lg:flex mt-8">
+                <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-4">
+                    <div class="sm:hidden lg:hidden">
+                        <label for="tabs" class="sr-only">Select tab</label>
+                        <select id="tabs"
+                                class="bg-gray-50 border-0 border-b border-gray-200 text-gray-900 text-sm rounded-t-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <!--                            <option>Solved.ac 정보</option>-->
+                            <option>내 정보</option>
+                            <!--                            <option>FAQ</option>-->
+                        </select>
+                    </div>
+                    <ul class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg sm:flex dark:divide-gray-600 dark:text-gray-400 rtl:divide-x-reverse"
+                        id="fullWidthTab" data-tabs-toggle="#fullWidthTabContent" role="tablist">
+                        <!--                        <li class="w-full">-->
+                        <!--                            <button id="stats-tab" data-tabs-target="#stats" type="button" role="tab"-->
+                        <!--                                    aria-controls="stats" aria-selected="true"-->
+                        <!--                                    class="inline-block w-full p-4 rounded-ss-lg bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">-->
+                        <!--                                Solved.ac 정보-->
+                        <!--                            </button>-->
+                        <!--                        </li>-->
+                        <li class="w-full">
+                            <button id="about-tab" data-tabs-target="#about" type="button" role="tab"
+                                    aria-controls="about" aria-selected="false"
+                                    class="inline-block w-full p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">
+                                내 정보
+                            </button>
+                        </li>
+                    </ul>
+                    <div id="fullWidthTabContent" class="border-t border-gray-200 dark:border-gray-600">
+                        <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel"
+                             aria-labelledby="stats-tab">
+                            <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-2 xl:grid-cols-2 dark:text-white sm:p-8">
+                                <div class="flex flex-col items-center justify-center">
+                                    <dt class="mb-2 text-3xl font-extrabold">73M+</dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">유저명</dd>
+                                </div>
+                                <div class="flex flex-col items-center justify-center">
+                                    <dt class="mb-2 text-3xl font-extrabold">1000s</dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">푼 문제수</dd>
+                                </div>
+                                <div class="flex flex-col items-center justify-center">
+                                    <dt class="mb-2 text-3xl font-extrabold">1B+</dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">티어</dd>
+                                </div>
+                                <div class="flex flex-col items-center justify-center">
+                                    <dt class="mb-2 text-3xl font-extrabold">90+</dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">클래스</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="about" role="tabpanel"
+                             aria-labelledby="about-tab">
+                            <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                                작성한 글</h2>
+                            <!-- List -->
+                            <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
+                                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600 dark:text-blue-500"
+                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                         viewBox="0 0 20 20">
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                    </svg>
+                                    <span class="leading-tight" th:text="@{|게시글 ${#lists.size(questions)} 건|}"></span>
+                                </li>
+                                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600 dark:text-blue-500"
+                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                         viewBox="0 0 20 20">
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                    </svg>
+                                    <span class="leading-tight" th:text="@{|답변 ${#lists.size(answers)} 건|}"></span>
+                                </li>
+                                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600 dark:text-blue-500"
+                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                         viewBox="0 0 20 20">
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                    </svg>
+                                    <span class="leading-tight"
+                                          th:text="@{|저장한 문제 ${user.getProblems().getTotalElements()} 건|}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--                        <div class="hidden p-4 bg-white rounded-lg dark:bg-gray-800" id="faq" role="tabpanel"-->
+                        <!--                             aria-labelledby="faq-tab">-->
+                        <!--                            <div id="accordion-flush" data-accordion="collapse"-->
+                        <!--                                 data-active-classes="bg-white dark:bg-gray-800 text-gray-900 dark:text-white"-->
+                        <!--                                 data-inactive-classes="text-gray-500 dark:text-gray-400">-->
+                        <!--                                <h2 id="accordion-flush-heading-1">-->
+                        <!--                                    <button type="button"-->
+                        <!--                                            class="flex items-center justify-between w-full py-5 font-medium text-left rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"-->
+                        <!--                                            data-accordion-target="#accordion-flush-body-1" aria-expanded="true"-->
+                        <!--                                            aria-controls="accordion-flush-body-1">-->
+                        <!--                                        <span>What is Flowbite?</span>-->
+                        <!--                                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"-->
+                        <!--                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">-->
+                        <!--                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"-->
+                        <!--                                                  stroke-width="2" d="M9 5 5 1 1 5"/>-->
+                        <!--                                        </svg>-->
+                        <!--                                    </button>-->
+                        <!--                                </h2>-->
+                        <!--                                <div id="accordion-flush-body-1" class="hidden"-->
+                        <!--                                     aria-labelledby="accordion-flush-heading-1">-->
+                        <!--                                    <div class="py-5 border-b border-gray-200 dark:border-gray-700">-->
+                        <!--                                        <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is an open-source-->
+                        <!--                                            library of interactive components built on top of Tailwind CSS including-->
+                        <!--                                            buttons, dropdowns, modals, navbars, and more.</p>-->
+                        <!--                                        <p class="text-gray-500 dark:text-gray-400">Check out this guide to learn how to-->
+                        <!--                                            <a href="/docs/getting-started/introduction/"-->
+                        <!--                                               class="text-blue-600 dark:text-blue-500 hover:underline">get started</a>-->
+                        <!--                                            and start developing websites even faster with components on top of Tailwind-->
+                        <!--                                            CSS.</p>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <h2 id="accordion-flush-heading-2">-->
+                        <!--                                    <button type="button"-->
+                        <!--                                            class="flex items-center justify-between w-full py-5 font-medium text-left rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"-->
+                        <!--                                            data-accordion-target="#accordion-flush-body-2" aria-expanded="false"-->
+                        <!--                                            aria-controls="accordion-flush-body-2">-->
+                        <!--                                        <span>Is there a Figma file available?</span>-->
+                        <!--                                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"-->
+                        <!--                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">-->
+                        <!--                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"-->
+                        <!--                                                  stroke-width="2" d="M9 5 5 1 1 5"/>-->
+                        <!--                                        </svg>-->
+                        <!--                                    </button>-->
+                        <!--                                </h2>-->
+                        <!--                                <div id="accordion-flush-body-2" class="hidden"-->
+                        <!--                                     aria-labelledby="accordion-flush-heading-2">-->
+                        <!--                                    <div class="py-5 border-b border-gray-200 dark:border-gray-700">-->
+                        <!--                                        <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first-->
+                        <!--                                            conceptualized and designed using the Figma software so everything you see-->
+                        <!--                                            in the library has a design equivalent in our Figma file.</p>-->
+                        <!--                                        <p class="text-gray-500 dark:text-gray-400">Check out the <a-->
+                        <!--                                                href="https://flowbite.com/figma/"-->
+                        <!--                                                class="text-blue-600 dark:text-blue-500 hover:underline">Figma design-->
+                        <!--                                            system</a> based on the utility classes from Tailwind CSS and components-->
+                        <!--                                            from Flowbite.</p>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <h2 id="accordion-flush-heading-3">-->
+                        <!--                                    <button type="button"-->
+                        <!--                                            class="flex items-center justify-between w-full py-5 font-medium text-left rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"-->
+                        <!--                                            data-accordion-target="#accordion-flush-body-3" aria-expanded="false"-->
+                        <!--                                            aria-controls="accordion-flush-body-3">-->
+                        <!--                                        <span>What are the differences between Flowbite and Tailwind UI?</span>-->
+                        <!--                                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"-->
+                        <!--                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">-->
+                        <!--                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"-->
+                        <!--                                                  stroke-width="2" d="M9 5 5 1 1 5"/>-->
+                        <!--                                        </svg>-->
+                        <!--                                    </button>-->
+                        <!--                                </h2>-->
+                        <!--                                <div id="accordion-flush-body-3" class="hidden"-->
+                        <!--                                     aria-labelledby="accordion-flush-heading-3">-->
+                        <!--                                    <div class="py-5 border-b border-gray-200 dark:border-gray-700">-->
+                        <!--                                        <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the-->
+                        <!--                                            core components from Flowbite are open source under the MIT license, whereas-->
+                        <!--                                            Tailwind UI is a paid product. Another difference is that Flowbite relies on-->
+                        <!--                                            smaller and standalone components, whereas Tailwind UI offers sections of-->
+                        <!--                                            pages.</p>-->
+                        <!--                                        <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend-->
+                        <!--                                            using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no-->
+                        <!--                                            technical reason stopping you from using the best of two worlds.</p>-->
+                        <!--                                        <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these-->
+                        <!--                                            technologies:</p>-->
+                        <!--                                        <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">-->
+                        <!--                                            <li><a href="https://flowbite.com/pro/"-->
+                        <!--                                                   class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite-->
+                        <!--                                                Pro</a></li>-->
+                        <!--                                            <li><a href="https://tailwindui.com/" rel="nofollow"-->
+                        <!--                                                   class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind-->
+                        <!--                                                UI</a></li>-->
+                        <!--                                        </ul>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 dark:bg-gray-800">
+        <div class="items-center max-w-screen-xl px-4 py-8 mx-auto lg:grid lg:grid-cols-4 lg:gap-16 xl:gap-24 lg:py-24 lg:px-6">
+            <div></div>
+            <div>
+                <svg class="w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500" fill="currentColor"
+                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <h3 class="mb-2 text-2xl font-bold dark:text-white">Solved 연동 방법</h3>
+                <p class="font-light text-gray-500 dark:text-gray-400">Solved.ac 사이트 로그인 후 연동을 진행하세요. 버튼 클릭 전에 꼭
+                    확인해주세요.</p>
+            </div>
+            <div>
+                <svg class="w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500" fill="currentColor"
+                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                </svg>
+                <h3 class="mb-2 text-2xl font-bold dark:text-white">닉네임 주의 사항</h3>
+                <p class="font-light text-gray-500 dark:text-gray-400" id="p-redirect">닉네임은 5분 간격으로 변경 가능하며, 중복된 닉네임으로
+                    변경은 불가능합니다.</p>
+            </div>
+        </div>
+        <div></div>
+
+    </section>
+
+    <!--저장한 문제-->
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            번호
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            제목
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            티어
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            알고리즘
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            링크
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        th:each="problem: ${user.getProblems()}">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            th:text="${problem.getId()}">
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            th:text="${problem.getTitle()}">
+                        </th>
+                        <td class="px-6 py-4" th:text="${problem.getLevel()}">
+                        </td>
+                        <td class="px-6 py-4" th:text="${problem.getTagName()}">
+                        </td>
+                        <td class="px-6 py-4 text-blue-600 hover:text-blue-800 hover:underline">
+                            <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}" target="_blank">
+                                풀기
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation example" class="px-6 mt-2 max-w-md mx-auto flex-col w-full"
+                 th:if="${!user.getProblems().isEmpty()}">
+                <ul class="inline-flex -space-x-px text-base h-10 justify-items-center">
+                    <li class="page-item">
+                        <a th:if="${user.getProblems().hasPrevious}" href="javascript:void(0)"
+                           th:href="@{|?page=${user.getProblems().number -1}#p-redirect|}"
+                           class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                        <a th:unless="${user.getProblems().hasPrevious}" href="javascript:void(0)"
+                           th:href="@{|?page=${user.getProblems().number}#p-redirect|}"
+                           class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                    </li>
+                    <li th:each="page: ${#numbers.sequence(0, user.getProblems().totalPages - 1)}"
+                        th:if="${user.getProblems().number <= 1 ? page < 5 : (page >= (user.getProblems().number - 2) and page <= (user.getProblems().number + 2))}"
+                        th:classappend="${page == user.getProblems().number} ? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'">
+                        <a th:href="@{|?page=${page}#p-redirect|}" th:text="${page + 1}"
+                           class="page-link flex items-center justify-center px-4 h-10"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${!user.getProblems().hasNext} ? 'disabled'">
+                        <a th:if="${user.getProblems().hasNext}"
+                           th:href="@{|?page=${user.getProblems().number + 1}#p-redirect|}"
+                           class="page-link flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                        <a th:unless="${user.getProblems().hasNext}"
+                           th:href="@{|?page=${user.getProblems().number}#p-redirect|}"
+                           class="page-link flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
+
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+    <script src="/jquery-3.7.1.js"></script>
+</div>
+<script layout:fragment="script">
+    $(document).ready(function () {
+        let csrfToken = $("meta[name='_csrf']").attr("content");
+        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        $("#change-button").on('click', function () {
+            let username = $("#username").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/user/update/username",
+                data: {username: username},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (response) {
+
+                    if (response.success) {
+                        alert(`닉네임을 ${username}로 변경했습니다.`);
+                        location.href = response.success;
+                    } else {
+                        alert(response.error);
+                    }
+                },
+                error: function () {
+                    alert("닉네임은 3글자 이상 20글자 이하 '영문숫자한글-_'만 가능합니다.");
+                }
+            });
+        });
+
+        // $("#connect-button").on('click', function () {
+        //     if (confirm("Solved.ac와 계정을 연동하시겠습니까?")) {
+        //         $.ajax({
+        //             type: "GET",
+        //             url: "https://solved.ac/api/v3/account/verify_credentials",
+        //             contentType: "application/json",
+        //             success: function (response) {
+        //                 console.log(response)
+        //             },
+        //             error: function () {
+        //                 alert("Solved.ac 계정 연동에 실패했습니다.");
+        //             }
+        //         })
+        //     }
+        // });
+    });
+</script>
+</html>

@@ -1,14 +1,37 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
-    <h5 class="my-3 border-bottom pb-2">답변 수정</h5>
-    <form th:object="${answerForm}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <div class="mb-3">
-            <label for="content" class="form-label">내용</label>
-            <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
+            <div class="relative overflow-x-auto">
+                <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <h5 class="my-3 border-bottom pb-2">답변 수정</h5>
+                    <form th:object="${answerForm}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                             role="alert" th:if="${#fields.hasAnyErrors()}">
+                                            <span class="font-medium" th:each="err: ${#fields.allErrors()}"
+                                                  th:text="${err}"></span>
+                        </div>
+                        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+                        <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                            <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                                <label for="content"
+                                       class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">내용</label>
+                                <textarea id="mk_down_editor" th:field="*{content}"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit"
+                                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800">
+                            저장하기
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <input type="submit" value="저장하기" class="btn btn-primary my-2">
-    </form>
+    </section>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        var simplemde = new SimpleMDE({element: document.getElementById("mk_down_editor")});
+    </script>
 </div>
 </html>

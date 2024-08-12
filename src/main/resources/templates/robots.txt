@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /problem
+Disallow: /unsolved-hgu/ranking
+
+Allow: /unsolved-hgu/question
+Allow: /unsolved-hgu/introduction
