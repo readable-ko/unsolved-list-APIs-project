@@ -11,7 +11,7 @@
                                             <span class="font-medium" th:each="err: ${#fields.allErrors()}"
                                                   th:text="${err}"></span>
                         </div>
-                        <div class="mb-6">
+                        <div>
                             <label for="subject"
                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">제목</label>
                             <input type="text" th:field="*{subject}" required

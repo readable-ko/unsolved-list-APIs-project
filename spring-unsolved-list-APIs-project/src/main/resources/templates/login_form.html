@@ -4,16 +4,16 @@
         <div class="relative overflow-x-auto">
             <div class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <form class="max-w-sm mx-auto" th:action="@{/user/login}" method="post">
-                    <!--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
-                    <div class="mb-5">
+                    <!--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+                    <div class="my-6">
                         <div th:if="${param.error}">
                             <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 alert">
                                 사용자ID 또는 비밀번호를 확인해 주세요.
                             </div>
                         </div>
-                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Username</label>
-                        <input type="text" id="username" name="username"
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Email</label>
+                        <input type="email" id="email" name="username"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder="example@handong.edu" required/>
                     </div>
@@ -23,12 +23,47 @@
                         <input type="password" id="password" name="password"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                required/>
+                        <a th:href="@{/user/signup}" sec:authorize="isAnonymous()"
+                           class="flex justify-end font-medium text-sm mt-2 text-purple-700 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-700">회원가입</a>
                     </div>
-                    <button type="submit"
-                            class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                        Submit
-                    </button>
+                    <div class="mb-8">
+                        <button type="submit"
+                                class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                            로그인
+                        </button>
+                    </div>
+                    <p class="my-6 text-center items-center font-bold text-gray-900 dark:text-gray-300">
+                        SNS 계정으로 간편하게 시작하기
+                    </p>
                 </form>
+                <div class="max-w-sm mx-auto flex justify-between gap-2">
+                    <div class="text-center items-center font-medium text-gray-700 dark:text-gray-300">
+                        <a href="/oauth2/authorization/google">
+                            <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
+                                 class="w-full mb-1 border border-gray-300 rounded bg-white dark:bg-gray-300"
+                                 alt="continue with google"/>
+                            <p>google<br>로그인</p>
+                        </a>
+                    </div>
+                    <div class="text-center items-center font-medium text-gray-700 dark:text-gray-300">
+                        <a href="/oauth2/authorization/naver">
+                            <img src="/images/naver_icon_sq.png"
+                                 style="width:45px;"
+                                 class="w-full mb-1 border border-gray-300 rounded bg-white dark:bg-gray-300"
+                                 alt="네이버로 로그인"/>
+                            <p>naver<br>로그인</p>
+                        </a>
+                    </div>
+                    <div class="text-center items-center font-medium text-gray-700 dark:text-gray-300">
+                        <a href="/oauth2/authorization/kakao">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg"
+                                 style="width:45px;"
+                                 class="w-full mb-1 border border-gray-300 rounded bg-white dark:bg-gray-300"
+                                 alt="카카오로 로그인"/>
+                            <p>kakao<br>로그인</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

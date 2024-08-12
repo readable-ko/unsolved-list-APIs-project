@@ -4264,6 +4264,11 @@ details.collapse summary::-webkit-details-marker {
     background-color: rgb(6 78 59 / var(--tw-bg-opacity));
 }
 
+.dark\:bg-gray-300:is(.dark *) {
+    --tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
 .dark\:bg-gray-600:is(.dark *) {
     --tw-bg-opacity: 1;
     background-color: rgb(75 85 99 / var(--tw-bg-opacity));

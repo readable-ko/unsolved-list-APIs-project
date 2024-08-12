@@ -12,21 +12,19 @@
           content="https://private-user-images.githubusercontent.com/70497430/345882415-827f036e-4323-4658-9e4a-7f0b51d4e309.png">
     <meta property="og:description" content="Get start problem solving with a UGH.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="/images/logos.jpg">
-
+    <meta property="og:image" content="/images/logo.svg">
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <meta name="theme-color" content="#ffffff">
-
-
     <!--    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
     <!-- sbb CSS -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/mycss.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <title>UGH - Unsolved Guideline for HGU</title>
+    <th:block layout:fragment="header"></th:block>
 </head>
 <body>
 <!--네비게이션 바 -->
@@ -37,7 +35,7 @@
 <div th:replace="~{footer :: footerFragment}"></div>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 <!-- 부트 스트랩 자바스크립트 -->
-<script th:src="@{/bootstrap.min.js}"></script>
+<!--<script th:src="@{/jquery-3.7.1.js}"></script>-->
 <!--자바 스크립트 start -->
 <th:block layout:fragment="script"></th:block>
 <!--자바 스크립트 end -->
@@ -101,7 +99,5 @@
         });
     });
 </script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

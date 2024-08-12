@@ -1,4 +1,8 @@
 <html layout:decorate="~{layout}">
+<div layout:fragment="header">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</div>
 <div layout:fragment="content">
     <section class="bg-white dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
@@ -44,7 +48,7 @@
                                class="page-link flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
                         </li>
                         <li th:each="page: ${#numbers.sequence(0, paging.totalPages - 1)}"
-                            th:if="${page >= (paging.number - 2) and page <= (paging.number + 2)}"
+                            th:if="${paging.number <= 1 ? page < 5 : (page >= (paging.number - 2) and page <= (paging.number + 2))}"
                             th:classappend="${page == paging.number} ? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'">
                             <a href="javascript:void(0)" th:data-page="${page}" th:text="${page + 1}"
                                class="page-link flex items-center justify-center px-4 h-10"></a>
@@ -117,14 +121,24 @@
                                         </label>
                                     </div>
                                 </li>
-                                <li class="w-full dark:border-gray-600">
+                                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                     <div class="flex items-center ps-3">
                                         <input id="radio_favorite" type="radio" value="FAVORITE" name="radio_list"
                                                th:checked="${types == 'FAVORITE'}"
                                                class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                         <label for="radio_favorite"
                                                class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">많이
-                                            푼 문제
+                                            푼
+                                        </label>
+                                    </div>
+                                </li>
+                                <li class="w-full dark:border-gray-600" sec:authorize="isAuthenticated()">
+                                    <div class="flex items-center ps-3">
+                                        <input id="radio_saved" type="radio" value="SAVED" name="radio_list"
+                                               th:checked="${types == 'SAVED'}"
+                                               class="radio_list w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                        <label for="radio_saved"
+                                               class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">저장한
                                         </label>
                                     </div>
                                 </li>
@@ -133,19 +147,22 @@
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-6 py-3 w-1/12">
+                                <th scope="col" class="px-3 py-3 w-1/12">
+                                    저장
+                                </th>
+                                <th scope="col" class="px-3 py-3 w-1/12">
                                     번호
                                 </th>
-                                <th scope="col" class="px-6 py-3 w-3/12">
+                                <th scope="col" class="px-3 py-3 w-3/12">
                                     제목
                                 </th>
-                                <th scope="col" class="px-6 py-3 w-2/12">
+                                <th scope="col" class="px-3 py-3 w-2/12">
                                     티어
                                 </th>
-                                <th scope="col" class="px-6 py-3 w-4/12">
+                                <th scope="col" class="px-3 py-3 w-4/12">
                                     알고리즘
                                 </th>
-                                <th scope="col" class="px-6 py-3 w-2/12">
+                                <th scope="col" class="px-3 py-3 w-1/12">
                                     링크
                                 </th>
                             </tr>
@@ -153,21 +170,37 @@
                             <tbody>
                             <tr th:each="problem, loop: ${paging}"
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-3 py-4">
+                                    <form method="post" name="saveForm" th:id="'saveForm' + ${problem.id}">
+                                        <a href="javascript:void(0);"
+                                           sec:authorize="isAuthenticated()"
+                                           th:if="${#authentication.isAuthenticated()}"
+                                           th:data-uri="@{|/user/save/problem/${problem.id}|}"
+                                           class="save-button h-full w-full font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                            <img src="/images/heart_filled.svg"
+                                                 th:if="${userSaved.contains(problem.id)}" alt="save_cancel_icon"/>
+                                            <img src="/images/heart_outline.svg"
+                                                 th:unless="${userSaved.contains(problem.id)}" alt="save_icon"/>
+                                        </a>
+                                        <img sec:authorize="isAnonymous()"
+                                             src="/images/heart_outline.svg" alt="save_icon"/>
+                                    </form>
+                                </td>
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}" th:target="_blank"
                                        th:text="${problem.id}"></a>
                                 </th>
-                                <td class="px-6 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <td class="px-3 py-4d font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}" th:target="_blank"
                                        th:text="${problem.solvedCount != 0} ? ${problem.title + ' (' + problem.solvedCount + '명)'} : ${problem.title}"></a>
                                 </td>
-                                <td th:text="${problem.getStringLevel}" class="px-6 py-4">
+                                <td th:text="${problem.getStringLevel}" class="px-3 py-4">
                                 </td>
                                 <td th:attr="data-original-text=${problem.getTagName}" th:text="${problem.getTagName}"
-                                    class="px-6 py-4 toggle-content">
+                                    class="px-3 py-4 toggle-content">
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 py-4">
                                     <a th:href="@{|https://acmicpc.net/problem/${problem.id}|}" th:target="_blank"
                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">풀기
                                     </a>
@@ -178,15 +211,17 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
+
     <form th:action="@{/problem}" method="get" id="searchForm">
         <input type="hidden" id="kw" name="kw" th:value="${kw}">
         <input type="hidden" id="page" name="page" th:value="${paging.number}">
         <input type="hidden" id="types" name="types" th:value="${types}">
     </form>
+    <script src="/jquery-3.7.1.js"></script>
 </div>
+
 <script layout:fragment="script" type="text/javascript">
     document.getElementById('algorithm-toggle').addEventListener('change', function () {
         toggleContentVisibility(this.checked);
@@ -238,6 +273,43 @@
         }
         document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
         document.getElementById('searchForm').submit();
+    });
+
+    const saved_elements = document.getElementsByClassName("save-button");
+    Array.from(saved_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("저장 혹은 삭제 하시겠습니까?")) {
+                let uri = this.dataset.uri;
+                let problemId = this.dataset.uri.split("/")[4];
+                let csrfToken = $("meta[name='_csrf']").attr("content");
+                let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+                let formId = `#saveForm${problemId}`
+                let formData = $(formId).serialize();
+
+                console.log(formData)
+                $.ajax({
+                    type: "POST",
+                    url: uri,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    data: formData,
+                    success: function (response) {
+                        if (response) {
+                            alert(`${problemId}을 저장했습니다.`);
+                            location.reload();
+                        } else {
+                            alert(`${problemId}를 제거했습니다.`);
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                    }
+                });
+                console.log(element)
+            }
+        });
     });
 </script>
 </html>

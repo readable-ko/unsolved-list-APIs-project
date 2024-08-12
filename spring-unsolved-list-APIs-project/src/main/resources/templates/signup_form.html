@@ -1,4 +1,8 @@
 <html layout:decorate="~{layout}">
+<div layout:fragment="header">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</div>
 <div layout:fragment="content">
     <section class="bg-white dark:bg-gray-900">
         <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
@@ -11,13 +15,35 @@
                                             <span class="font-medium" th:each="err: ${#fields.allErrors()}"
                                                   th:text="${err}"></span>
                         </div>
-                        <div class="mb-5">
+                        <div class="my-6">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Email
                             </label>
-                            <input type="email" th:field="*{email}"
-                                   class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                   placeholder="example@handong.edu" required/>
+                            <div class="flex gap-3">
+                                <input type="email" th:field="*{email}"
+                                       class=" email shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                       placeholder="example@handong.edu" required/>
+                                <button id="email-button"
+                                        class="w-2/5 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                                    메일 인증
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-5" th:classappend="${userCreateForm.loginState == 'NOTHING'} ? 'hidden' : ''"
+                             id="verification-section">
+                            <label for="verification-code"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                인증 번호
+                            </label>
+                            <div class="flex gap-3">
+                                <input type="text" id="verification-code" th:field="*{verifyCode}"
+                                       class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                       placeholder="인증번호 6자리를 입력해주세요."/>
+                                <button id="verification-button"
+                                        class="w-1/2 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                                    인증번호 확인
+                                </button>
+                            </div>
                         </div>
                         <div class="mb-5">
                             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -48,18 +74,118 @@
                                        required/>
                             </div>
                             <label for="terms" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree
-                                to <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">sign up this
+                                to
+                                <a href="https://docs.google.com/document/d/e/2PACX-1vTo_e8anVW_2YVCXSQasSRbvy8jfvjxIh9sdINM_uc-TCleU-Xr0-MGsd9KuEnEKZoe-8c4jOwUWeWI/pub"
+                                   target="_blank" class="text-blue-600 hover:underline dark:text-blue-500">sign up this
                                     site
                                 </a></label>
                         </div>
+                        <input type="text" hidden id="loginState" th:field="*{loginState}"/>
                         <button type="submit"
-                                class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                                class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                             회원가입
                         </button>
+                        <p class="my-6 text-center items-center font-bold text-gray-900 dark:text-gray-300">
+                            SNS 계정으로 간편하게 시작하기
+                        </p>
                     </form>
+                    <div class="max-w-sm mx-auto flex justify-between gap-2">
+                        <div class="text-center items-center font-medium text-gray-700 dark:text-gray-300">
+                            <a href="/oauth2/authorization/google">
+                                <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
+                                     class="w-full mb-1 border border-gray-300 rounded bg-white dark:bg-gray-300"
+                                     alt="continue with google"/>
+                                <p>google<br>로그인</p>
+                            </a>
+                        </div>
+                        <div class="text-center items-center font-medium text-gray-700 dark:text-gray-300">
+                            <a href="/oauth2/authorization/naver">
+                                <img src="/images/naver_icon_sq.png"
+                                     style="width:45px;"
+                                     class="w-full mb-1 border border-gray-300 rounded bg-white dark:bg-gray-300"
+                                     alt="네이버로 로그인"/>
+                                <p>naver<br>로그인</p>
+                            </a>
+                        </div>
+                        <div class="text-center items-center font-medium text-gray-700 dark:text-gray-300">
+                            <a href="/oauth2/authorization/kakao">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg"
+                                     style="width:45px;"
+                                     class="w-full mb-1 border border-gray-300 rounded bg-white dark:bg-gray-300"
+                                     alt="카카오로 로그인"/>
+                                <p>kakao<br>로그인</p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+    <script src="/jquery-3.7.1.js"></script>
 </div>
+<script layout:fragment="script">
+    $(document).ready(function () {
+        $("#email-button").on('click', function () {
+
+            let email = $("#email").val();
+            $("#verification-section").removeClass("hidden");
+            let emailRequestForm = {
+                email: email
+            };
+            $.ajax({
+                type: "POST",
+                url: "/user/emails/verification-request",
+                contentType: "application/json",
+                data: JSON.stringify(emailRequestForm),
+                success: function (response) {
+                    if (response.code) {
+                        alert("입력하신 메일로 인증번호가 전송되었습니다.");
+                        $("#loginState").val("REQUEST");
+                    } else if (response.error) {
+                        $("#verification-section").addClass("hidden");
+                        alert(response.error);
+                    } else {
+                        alert("인증번호를 받을 수 없습니다.");
+                    }
+                },
+                error: function () {
+                    alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                }
+            });
+        });
+
+        $("#verification-button").on('click', function () {
+            let email = $("#email").val();
+            let authString = $("#verification-code").val();
+            let emailVerifyForm = {
+                email: email,
+                authString: authString
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/user/emails/verification",
+                contentType: "application/json",
+                data: JSON.stringify(emailVerifyForm),
+                success: function (message) {
+                    if (message) {
+                        alert(message);
+                        $("#email").prop("readonly", true);
+                        $("#verification-code").prop("readonly", true);
+                        $("#loginState").val("VERIFIED");
+                    } else {
+                        alert("인증번호가 다릅니다. 다시 입력하세요.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status == 500) {
+                        alert("잘못된 인증번호이거나, 인증 시간 만료입니다.");
+                    } else {
+                        alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                    }
+                }
+            })
+        })
+    });
+</script>
 </html>
